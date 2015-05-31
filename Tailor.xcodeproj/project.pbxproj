@@ -7,9 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C80008A11A0BDBF200CBA227 /* UIKit+Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80008A01A0BDBF200CBA227 /* UIKit+Themes.swift */; };
 		C81A9CC31A0799AC00EE15A7 /* Tailor.h in Headers */ = {isa = PBXBuildFile; fileRef = C81A9CC21A0799AC00EE15A7 /* Tailor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C81A9CC91A0799AC00EE15A7 /* Tailor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C81A9CBD1A0799AC00EE15A7 /* Tailor.framework */; };
 		C81A9CD01A0799AC00EE15A7 /* TailorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81A9CCF1A0799AC00EE15A7 /* TailorTests.swift */; };
+		C81A9CDC1A0799C600EE15A7 /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81A9CD91A0799C600EE15A7 /* Property.swift */; };
+		C81A9CDD1A0799C600EE15A7 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81A9CDA1A0799C600EE15A7 /* Theme.swift */; };
+		C81A9CE01A0799F900EE15A7 /* CommonProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81A9CDF1A0799F900EE15A7 /* CommonProperties.swift */; };
+		C81A9CED1A07B90300EE15A7 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81A9CEC1A07B90300EE15A7 /* Style.swift */; };
+		C88B4BA41A07DFF8008896BA /* ThemeUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88B4BA31A07DFF8008896BA /* ThemeUtility.swift */; };
+		C88B4BA61A07E059008896BA /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88B4BA51A07E059008896BA /* Views.swift */; };
+		C8EFF7181A08282A001C0644 /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EFF7171A08282A001C0644 /* UIView+Layout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,12 +31,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C80008A01A0BDBF200CBA227 /* UIKit+Themes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+Themes.swift"; sourceTree = "<group>"; };
 		C81A9CBD1A0799AC00EE15A7 /* Tailor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tailor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C81A9CC11A0799AC00EE15A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C81A9CC21A0799AC00EE15A7 /* Tailor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tailor.h; sourceTree = "<group>"; };
 		C81A9CC81A0799AC00EE15A7 /* TailorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TailorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C81A9CCE1A0799AC00EE15A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C81A9CCF1A0799AC00EE15A7 /* TailorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TailorTests.swift; sourceTree = "<group>"; };
+		C81A9CD91A0799C600EE15A7 /* Property.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Property.swift; sourceTree = "<group>"; };
+		C81A9CDA1A0799C600EE15A7 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		C81A9CDF1A0799F900EE15A7 /* CommonProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonProperties.swift; sourceTree = "<group>"; };
+		C81A9CEC1A07B90300EE15A7 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		C88B4BA31A07DFF8008896BA /* ThemeUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeUtility.swift; sourceTree = "<group>"; };
+		C88B4BA51A07E059008896BA /* Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
+		C8EFF7171A08282A001C0644 /* UIView+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +88,14 @@
 			isa = PBXGroup;
 			children = (
 				C81A9CC21A0799AC00EE15A7 /* Tailor.h */,
+				C81A9CD91A0799C600EE15A7 /* Property.swift */,
+				C81A9CEC1A07B90300EE15A7 /* Style.swift */,
+				C81A9CDF1A0799F900EE15A7 /* CommonProperties.swift */,
+				C81A9CDA1A0799C600EE15A7 /* Theme.swift */,
+				C88B4BA51A07E059008896BA /* Views.swift */,
+				C80008A01A0BDBF200CBA227 /* UIKit+Themes.swift */,
+				C8EFF7171A08282A001C0644 /* UIView+Layout.swift */,
+				C88B4BA31A07DFF8008896BA /* ThemeUtility.swift */,
 				C81A9CC01A0799AC00EE15A7 /* Supporting Files */,
 			);
 			path = Tailor;
@@ -209,6 +233,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8EFF7181A08282A001C0644 /* UIView+Layout.swift in Sources */,
+				C81A9CDC1A0799C600EE15A7 /* Property.swift in Sources */,
+				C81A9CDD1A0799C600EE15A7 /* Theme.swift in Sources */,
+				C80008A11A0BDBF200CBA227 /* UIKit+Themes.swift in Sources */,
+				C88B4BA61A07E059008896BA /* Views.swift in Sources */,
+				C88B4BA41A07DFF8008896BA /* ThemeUtility.swift in Sources */,
+				C81A9CE01A0799F900EE15A7 /* CommonProperties.swift in Sources */,
+				C81A9CED1A07B90300EE15A7 /* Style.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +427,7 @@
 				C81A9CD51A0799AC00EE15A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C81A9CD61A0799AC00EE15A7 /* Build configuration list for PBXNativeTarget "TailorTests" */ = {
 			isa = XCConfigurationList;
@@ -403,6 +436,7 @@
 				C81A9CD81A0799AC00EE15A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
