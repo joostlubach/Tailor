@@ -25,6 +25,12 @@ public protocol LayoutItemConvertible {
   func toLayoutItem() -> LayoutItem
 }
 
+extension CGFloat: LayoutItemConvertible {
+  public func toLayoutItem() -> LayoutItem {
+    return LayoutItem.FixedSpace(self)
+  }
+}
+
 extension LayoutItem: LayoutItemConvertible {
   public func toLayoutItem() -> LayoutItem {
     return self
