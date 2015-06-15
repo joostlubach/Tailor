@@ -114,7 +114,7 @@ public extension UIView {
     var availableSpace = vertical ? superview.bounds.height : superview.bounds.width
     availableSpace -= 2 * padding
 
-    var totalSpacing = spacing * CGFloat(items.count - 1)
+    let totalSpacing = spacing * CGFloat(items.count - 1)
 
     let flexSpace = flexes == 0 ? 0 : (availableSpace - fixedSpace - totalSpacing) / CGFloat(flexes)
 

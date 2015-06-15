@@ -59,14 +59,14 @@ public extension UIView {
   // MARK: - Sizing
 
   func wrap(view: UIView, around otherViews: [UIView]? = nil, onAxis axis: LayoutAxis = .Both, padding: CGFloat = 0, alignSubviews: LayoutAlignment = .Center) {
-    let subviews = otherViews ?? (view.subviews as! [UIView])
+    let subviews = otherViews ?? (view.subviews as [UIView])
 
     if axis.horizontal {
-      var maxWidth = maxOf(subviews.map({ $0.frame.width })) ?? 0
+      let maxWidth = maxOf(subviews.map({ $0.frame.width })) ?? 0
       view.frame.size.width = maxWidth + 2 * padding
     }
     if axis.vertical {
-      var maxHeight = maxOf(subviews.map({ $0.frame.height })) ?? 0
+      let maxHeight = maxOf(subviews.map({ $0.frame.height })) ?? 0
       view.frame.size.height = maxHeight + 2 * padding
     }
 

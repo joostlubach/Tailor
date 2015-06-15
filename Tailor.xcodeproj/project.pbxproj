@@ -185,6 +185,7 @@
 		C81A9CB41A0799AC00EE15A7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Metritz BV";
 				TargetAttributes = {

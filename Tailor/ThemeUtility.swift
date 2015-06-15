@@ -11,10 +11,10 @@ class ThemeUtility {
       result.append(current)
 
       if current === root {
-        todo += current.subviews as! [UIView]
+        todo += current.subviews as [UIView]
       }
       if let container = current as? ContainerView {
-        todo += container.subviews as! [UIView]
+        todo += container.subviews as [UIView]
       }
     }
 
