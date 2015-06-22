@@ -8,6 +8,10 @@
 public let foregroundColor: Property<UIColor> = {
   let foregroundColor = Property<UIColor>("foreground-color")
 
+  foregroundColor.application(UIView.self) { view, color in
+    view.tintColor = color
+    view.tintAdjustmentMode = .Normal
+  }
   foregroundColor.application(UILabel.self) { label, color in
     label.textColor = color
   }
