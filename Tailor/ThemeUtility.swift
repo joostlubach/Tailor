@@ -13,8 +13,8 @@ class ThemeUtility {
       if current === root {
         todo += current.subviews as! [UIView]
       }
-      if let container = current as? ContainerView {
-        todo += container.subviews as! [UIView]
+      if current is ContainerView || current is UIScrollView {
+        todo += current.subviews as! [UIView]
       }
     }
 
