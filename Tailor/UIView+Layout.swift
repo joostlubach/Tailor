@@ -24,147 +24,201 @@ private func minOf<T: SequenceType where T.Generator.Element: Comparable>(values
   return currentMin
 }
 
+public enum LayoutAxis {
+  case X, Y, Both
+
+  var horizontal: Bool {
+    return self == X || self == Both
+  }
+  var vertical: Bool {
+    return self == Y || self == Both
+  }
+}
+
+public enum AxisAlignment {
+  case Near, Center, Far, Stretch
+}
+
+public enum LayoutAlignment {
+  case TopLeft
+  case Top
+  case TopRight
+  case Left
+  case Center
+  case Right
+  case BottomLeft
+  case Bottom
+  case BottomRight
+
+  var horizontalAlignment: AxisAlignment {
+    switch self {
+    case TopLeft, Left, BottomLeft: return .Near
+    case Top, Center, Bottom: return .Center
+    case TopRight, Right, BottomRight: return .Far
+    }
+  }
+
+  var verticalAlignment: AxisAlignment {
+    switch self {
+    case TopLeft, Top, TopRight: return .Near
+    case Left, Center, Right: return .Center
+    case BottomLeft, Bottom, BottomRight: return .Far
+    }
+  }
+}
+
+// MARK: - Size accessors
+
 public extension UIView {
 
-  enum LayoutAxis {
-    case X, Y, Both
+  var size: CGSize {
+    get { return bounds.size }
+    set { bounds.size = newValue }
+  }
 
-    var horizontal: Bool {
-      return self == X || self == Both
+  var width: CGFloat {
+    get { return size.width }
+    set { size.width = newValue }
+  }
+
+  var height: CGFloat {
+    get { return size.height }
+    set { size.height = newValue }
+  }
+
+  var position: CGPoint {
+    get {
+      return CGPoint(x: center.x - width / 2, y: center.y - height / 2)
     }
-    var vertical: Bool {
-      return self == Y || self == Both
+    set {
+      center = CGPoint(x: newValue.x + width / 2, y: newValue.y + height / 2)
     }
   }
 
-  enum LayoutAlignment {
-    case Near, Center, Far, Stretch
-  }
+}
 
-  // MARK: - Placement
+public extension UIView {
 
-  func place(view: UIView, toTheRightOf otherViews: [UIView], padding: CGFloat = 0) {
-    view.frame.origin.x = (maxOf(otherViews.map({ $0.frame.maxX })) ?? 0) + padding
-  }
-  func place(view: UIView, toTheLeftOf otherViews: [UIView], padding: CGFloat = 0) {
-    view.frame.origin.x = (minOf(otherViews.map({ $0.frame.minX })) ?? 0) - view.frame.width - padding
-  }
-  func place(view: UIView, below otherViews: [UIView], padding: CGFloat = 0) {
-    view.frame.origin.y = (maxOf(otherViews.map({ $0.frame.maxY })) ?? 0) + padding
-  }
-  func place(view: UIView, above otherViews: [UIView], padding: CGFloat = 0) {
-    view.frame.origin.y = (minOf(otherViews.map({ $0.frame.minY })) ?? 0) - view.frame.height - padding
-  }
-
-  // MARK: - Sizing
-
-  func wrap(view: UIView, around otherViews: [UIView]? = nil, onAxis axis: LayoutAxis = .Both, padding: CGFloat = 0, alignSubviews: LayoutAlignment = .Center) {
-    let subviews = otherViews ?? (view.subviews as! [UIView])
+  /// Aligns this view with another view.
+  func alignWith(otherView: UIView, alignment: AxisAlignment, onAxis axis: LayoutAxis) {
 
     if axis.horizontal {
-      var maxWidth = maxOf(subviews.map({ $0.frame.width })) ?? 0
-      view.frame.size.width = maxWidth + 2 * padding
+      switch alignment {
+      case .Near:
+        position.x = otherView.frame.minX
+      case .Center:
+        center.x = otherView.frame.midX
+      case .Far:
+        position.x = otherView.frame.maxX - width
+      case .Stretch:
+        width = otherView.width
+        position.x = otherView.frame.minX
+      }
+    }
+
+    if axis.vertical {
+      switch alignment {
+      case .Near:
+        position.y = otherView.frame.minY
+      case .Center:
+        center.y = otherView.frame.midY
+      case .Far:
+        position.y = otherView.frame.maxY - height
+      case .Stretch:
+        height = otherView.height
+        position.y = otherView.frame.minY
+      }
+    }
+
+  }
+
+  /// Wraps this view around its subviews on the given axis.
+  ///
+  /// :param: axis     The axis to use for wrapping. By default, this is both axes.
+  /// :param: padding  An optional padding between the edges of the view and its subviews.
+  func wrap(axis: LayoutAxis = .Both, padding: CGFloat = 0) {
+    let subviews = self.subviews as! [UIView]
+
+    if axis.horizontal {
+      var maxWidth = maxOf(subviews.map({ $0.width })) ?? 0
+      size.width = maxWidth + 2 * padding
+
+      for view in subviews {
+        view.position.x += padding
+      }
     }
     if axis.vertical {
-      var maxHeight = maxOf(subviews.map({ $0.frame.height })) ?? 0
-      view.frame.size.height = maxHeight + 2 * padding
-    }
+      var maxHeight = maxOf(subviews.map({ $0.height })) ?? 0
+      size.height = maxHeight + 2 * padding
 
-    // Align the subviews.
-    for subview in subviews {
-      alignInSuperview(subview, alignment: alignSubviews, onAxis: axis, padding: padding)
-    }
-  }
-
-  // MARK: - Sizing
-
-  func center(view: UIView, with otherView: UIView, onAxis axis: LayoutAxis = .Both) {
-    align(view, alignment: .Center, with: otherView, onAxis: axis)
-  }
-
-  func align(view: UIView, alignment: LayoutAlignment, with otherView: UIView, onAxis axis: LayoutAxis = .Both) {
-    switch alignment {
-    case .Near:
-      if axis.horizontal {
-        view.frame.origin.x = otherView.frame.minX
-      }
-      if axis.vertical {
-        view.frame.origin.y = otherView.frame.minY
-      }
-    case .Center:
-      if axis.horizontal {
-        view.center.x = otherView.center.x
-      }
-      if axis.vertical {
-        view.center.y = otherView.center.y
-      }
-    case .Far:
-      if axis.horizontal {
-        view.frame.origin.x = otherView.frame.maxX - view.frame.width
-      }
-      if axis.vertical {
-        view.frame.origin.y = otherView.frame.maxY - view.frame.height
-      }
-    case .Stretch:
-      if axis.horizontal {
-        view.frame.origin.x = otherView.frame.minX
-        view.frame.size.width = otherView.frame.width
-      }
-      if axis.vertical {
-        view.frame.origin.y = otherView.frame.minY
-        view.frame.size.height = otherView.frame.height
+      for view in subviews {
+        view.position.y += padding
       }
     }
   }
 
-  func alignInSuperview(view: UIView, alignment: LayoutAlignment, onAxis axis: LayoutAxis, padding: CGFloat = 0.0) {
-    assert(view.superview != nil, "subview must have a superview")
+  /// Wraps this view around its subviews, and aligns each subview according to the given alignment.
+  func wrapAndAlign(#axis: LayoutAxis, align alignment: AxisAlignment) {
+    // First wrap.
+    wrap(axis: axis)
 
-    let superview = view.superview!
-
-    switch alignment {
-    case .Near:
-      if axis.horizontal {
-        view.frame.origin.x = superview.bounds.minX + padding
-      }
-      if axis.vertical {
-        view.frame.origin.y = superview.bounds.minY + padding
-      }
-    case .Center:
-      if axis.horizontal {
-        view.center.x = superview.bounds.midX
-      }
-      if axis.vertical {
-        view.center.y = superview.bounds.midY
-      }
-    case .Far:
-      if axis.horizontal {
-        view.frame.origin.x = superview.bounds.maxX - padding - view.frame.width
-      }
-      if axis.vertical {
-        view.frame.origin.y = superview.bounds.maxY - padding - view.frame.height
-      }
-    case .Stretch:
-      if axis.horizontal {
-        view.frame.origin.x = superview.bounds.minX + padding
-        view.frame.size.width = superview.bounds.width - 2 * padding
-      }
-      if axis.vertical {
-        view.frame.origin.y = superview.bounds.minY + padding
-        view.frame.size.height = superview.bounds.height - 2 * padding
-      }
+    // Then align.
+    for view in subviews as! [UIView] {
+      view.alignInSuperview(alignment, onAxis: axis)
     }
   }
 
-  func overlay(view: UIView, on otherView: UIView, onAxis axis: LayoutAxis = .Both) {
+  /// Makes this view fill its superview's bounds.
+  func fillSuperview() {
+    precondition(superview != nil)
+
+    size = superview!.size
+    position = CGPoint(x: 0, y: 0)
+  }
+
+  /// Centers this view in its superview.
+  func centerInSuperview() {
+    alignInSuperview(.Center)
+  }
+
+  /// Aligns this view in its superview on the given axis, according to the given alignment.
+  func alignInSuperview(alignment: AxisAlignment, onAxis axis: LayoutAxis, padding: CGFloat = 0.0) {
+    precondition(self.superview != nil)
+    let superview = self.superview!
+
     if axis.horizontal {
-      view.frame.origin.x = otherView.frame.origin.x
-      view.frame.size.width = otherView.frame.width
+      switch alignment {
+      case .Near:
+        position.x = padding
+      case .Center:
+        center.x = superview.width / 2
+      case .Far:
+        position.x = superview.width - width - padding
+      case .Stretch:
+        width = superview.width - 2 * padding
+        position.x = padding
+      }
     }
-    if axis.horizontal {
-      view.frame.origin.y = otherView.frame.origin.y
-      view.frame.size.height = otherView.frame.height
+
+    if axis.vertical {
+      switch alignment {
+      case .Near:
+        position.y = padding
+      case .Center:
+        center.y = superview.height / 2
+      case .Far:
+        position.y = superview.height - height - padding
+      case .Stretch:
+        height = superview.height - 2 * padding
+        position.y = padding
+      }
     }
+  }
+
+  /// Aligns this view in its superview according to the given alignment.
+  func alignInSuperview(alignment: LayoutAlignment, padding: CGFloat = 0.0) {
+    alignInSuperview(alignment.horizontalAlignment, onAxis: .X, padding: padding)
+    alignInSuperview(alignment.verticalAlignment, onAxis: .Y, padding: padding)
   }
 
 }

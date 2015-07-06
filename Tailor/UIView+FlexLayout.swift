@@ -1,12 +1,23 @@
 import UIKit
 
+/// A layout item used in methods `column` and `row`.
 public enum LayoutItem {
+
+  /// A view with a fixed size.
   case Fixed(UIView)
+
+  /// A view with a flexible size.
   case Flexible(UIView, Int)
+
+  /// A fixed space.
   case FixedSpace(CGFloat)
+
+  /// A flexible space.
   case FlexibleSpace(Int)
+
 }
 
+/// Multiplies fixed spaces and flexible items by the given multiplier.
 public func *(layoutItem: LayoutItem, multiplier: Int) -> LayoutItem {
   switch (layoutItem) {
   case .Fixed(_):
@@ -25,15 +36,27 @@ public protocol LayoutItemConvertible {
   func toLayoutItem() -> LayoutItem
 }
 
+extension LayoutItem: LayoutItemConvertible {
+  public func toLayoutItem() -> LayoutItem {
+    return self
+  }
+}
+
 extension CGFloat: LayoutItemConvertible {
   public func toLayoutItem() -> LayoutItem {
     return LayoutItem.FixedSpace(self)
   }
 }
 
-extension LayoutItem: LayoutItemConvertible {
+extension Double: LayoutItemConvertible {
   public func toLayoutItem() -> LayoutItem {
-    return self
+    return LayoutItem.FixedSpace(CGFloat(self))
+  }
+}
+
+extension Int: LayoutItemConvertible {
+  public func toLayoutItem() -> LayoutItem {
+    return LayoutItem.FixedSpace(CGFloat(self))
   }
 }
 
@@ -74,15 +97,33 @@ public extension RootView {
 
 public extension UIView {
 
-  func column(items: [LayoutItemConvertible], align: LayoutAlignment, spacing: CGFloat = 0, padding: CGFloat = 0, crossPadding: CGFloat = 0, wrapSuperview: Bool = false) {
-    flex(true, items: items, align: align, spacing: spacing, padding: padding, crossPadding: crossPadding, wrapSuperview: wrapSuperview)
+  /// Lays out the given items in a column. Each specified view should have the same superview.
+  ///
+  /// :param: items  The items to lay out.
+  /// :param: align  An optional (horizontal) alignment for the items.
+  ///
+  /// :Example:
+  ///   This example lays out a log in form in the center of their superview.
+  ///
+  ///     column([space(), usernameField, 10, passwordField, space()], align: .Center)
+  func column(items: [LayoutItemConvertible], align: AxisAlignment? = nil) {
+    flex(true, items: items, align: align)
   }
 
-  func row(items: [LayoutItemConvertible], align: LayoutAlignment, spacing: CGFloat = 0, padding: CGFloat = 0, crossPadding: CGFloat = 0, wrapSuperview: Bool = false) {
-    flex(false, items: items, align: align, spacing: spacing, padding: padding, crossPadding: crossPadding, wrapSuperview: wrapSuperview)
+  /// Lays out the given items in a row. Each specified view should have the same superview.
+  ///
+  /// :param: items  The items to lay out.
+  /// :param: align  An optional (vertical) alignment for the items.
+  ///
+  /// :Example:
+  ///   This example lays out a text field and a submit button at the top of the screen.
+  ///
+  ///     column([10, flexible(textField), 10, button, 10], align: .Near)
+  func row(items: [LayoutItemConvertible], align: AxisAlignment) {
+    flex(false, items: items, align: align)
   }
 
-  private func flex(vertical: Bool, items: [LayoutItemConvertible], align: LayoutAlignment, spacing: CGFloat = 0, padding: CGFloat = 0, crossPadding: CGFloat = 0, wrapSuperview: Bool = false) {
+  private func flex(vertical: Bool, items: [LayoutItemConvertible], align: AxisAlignment?) {
     var views: [UIView]      = []
     var fixedSpace: CGFloat  = 0.0
     var flexes: Int          = 0
@@ -103,39 +144,35 @@ public extension UIView {
     }
 
     if views.count == 0 {
-      assertionFailure("need at least one view for column/row layout")
+      preconditionFailure("need at least one view for column/row layout")
     }
     if views[0].superview == nil {
-      assertionFailure("no superview found")
+      preconditionFailure("no superview found")
     }
 
     let superview = views[0].superview!
 
     var availableSpace = vertical ? superview.bounds.height : superview.bounds.width
-    availableSpace -= 2 * padding
+    let flexSpace = flexes == 0 ? 0 : (availableSpace - fixedSpace) / CGFloat(flexes)
 
-    var totalSpacing = spacing * CGFloat(items.count - 1)
-
-    let flexSpace = flexes == 0 ? 0 : (availableSpace - fixedSpace - totalSpacing) / CGFloat(flexes)
-
-    var current = padding
+    var current = CGFloat(0)
     for item in items {
       switch item.toLayoutItem() {
       case let .Fixed(view):
         if vertical {
-          view.frame.origin.y = current
+          view.position.y = current
         } else {
-          view.frame.origin.x = current
+          view.position.x = current
         }
         current += vertical ? view.frame.height : view.frame.width
 
       case let .Flexible(view, flex):
         if vertical {
-          view.frame.origin.y = current
-          view.frame.size.height = flexSpace * CGFloat(flex)
+          view.position.y = current
+          view.height = flexSpace * CGFloat(flex)
         } else {
-          view.frame.origin.x = current
-          view.frame.size.width = flexSpace * CGFloat(flex)
+          view.position.x = current
+          view.width = flexSpace * CGFloat(flex)
         }
         current += flexSpace * CGFloat(flex)
 
@@ -145,23 +182,23 @@ public extension UIView {
       case let .FlexibleSpace(flex):
         current += flexSpace * CGFloat(flex)
       }
-
-      current += spacing
     }
 
-    // Perform cross alignment.
-    let crossAxis = vertical ? LayoutAxis.X : LayoutAxis.Y
-    if wrapSuperview {
-      wrap(superview, around: views, onAxis: crossAxis, alignSubviews: align, padding: crossPadding)
-      if vertical {
-        superview.frame.size.height = fixedSpace + CGFloat(flexes) * flexSpace + totalSpacing + 2 * padding
-      } else {
-        superview.frame.size.width = fixedSpace + CGFloat(flexes) * flexSpace + totalSpacing + 2 * padding
-      }
+    // Perform wrapping.
+    let totalSize = fixedSpace + CGFloat(flexes) * flexSpace
+    if vertical {
+      superview.height = totalSize
     } else {
-      for view in views {
-        alignInSuperview(view, alignment: align, onAxis: crossAxis, padding: crossPadding)
-      }
+      superview.width = totalSize
+    }
+
+    // Perform cross alignment and wrapping.
+    let crossAxis = vertical ? LayoutAxis.X : LayoutAxis.Y
+
+    if let alignment = align {
+      superview.wrapAndAlign(axis: crossAxis, align: alignment)
+    } else {
+      superview.wrap(axis: crossAxis)
     }
   }
   
