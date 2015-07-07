@@ -198,7 +198,7 @@ public extension UIView {
     if let alignment = align {
       superview.wrapAndAlign(axis: crossAxis, align: alignment)
     } else {
-      superview.wrap(axis: crossAxis)
+      superview.wrapAroundSubviews(axis: crossAxis)
     }
   }
   

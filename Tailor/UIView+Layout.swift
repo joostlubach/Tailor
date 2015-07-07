@@ -136,7 +136,7 @@ public extension UIView {
   ///
   /// :param: axis     The axis to use for wrapping. By default, this is both axes.
   /// :param: padding  An optional padding between the edges of the view and its subviews.
-  func wrap(axis: LayoutAxis = .Both, padding: CGFloat = 0) {
+  func wrapAroundSubviews(axis: LayoutAxis = .Both, padding: CGFloat = 0) {
     let subviews = self.subviews as! [UIView]
 
     if axis.horizontal {
@@ -160,7 +160,7 @@ public extension UIView {
   /// Wraps this view around its subviews, and aligns each subview according to the given alignment.
   func wrapAndAlign(#axis: LayoutAxis, align alignment: AxisAlignment) {
     // First wrap.
-    wrap(axis: axis)
+    wrapAroundSubviews(axis: axis)
 
     // Then align.
     for view in subviews as! [UIView] {
