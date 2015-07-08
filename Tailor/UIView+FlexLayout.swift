@@ -196,9 +196,9 @@ public extension UIView {
     let crossAxis = vertical ? LayoutAxis.X : LayoutAxis.Y
 
     if let alignment = align {
-      superview.wrapAndAlign(axis: crossAxis, align: alignment)
-    } else {
-      superview.wrapAroundSubviews(axis: crossAxis)
+      for view in views {
+        view.alignInSuperview(alignment, onAxis: crossAxis)
+      }
     }
   }
   

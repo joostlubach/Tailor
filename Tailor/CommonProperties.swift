@@ -22,12 +22,17 @@ public let foregroundColor: Property<UIColor> = {
     view.textColor = color
   }
   foregroundColor.application(UIButton.self) { button, color in
-    button.tintColor = color
     button.setTitleColor(color, forState: .Normal)
     return ()
   }
 
   return foregroundColor
+}()
+
+public let selectedForegroundColor: Property<UIColor> = {
+  let selectedForegroundColor = Property<UIColor>("selected-foreground-color")
+
+  return selectedForegroundColor
 }()
 
 // MARK: Placeholder color

@@ -21,6 +21,9 @@ public extension UIView {
   func addStyle<T>(style: Style<T>) {
     style.property.setValue(style.value, forView: self)
   }
+
+  func property<T>(property: Property<T>, wasSetToValue: T) {
+  }
   
 }
 
