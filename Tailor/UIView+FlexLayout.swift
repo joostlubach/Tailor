@@ -168,11 +168,11 @@ public extension UIView {
 
       case let .Flexible(view, flex):
         if vertical {
-          view.position.y = current
           view.height = flexSpace * CGFloat(flex)
+          view.position.y = current
         } else {
-          view.position.x = current
           view.width = flexSpace * CGFloat(flex)
+          view.position.x = current
         }
         current += flexSpace * CGFloat(flex)
 
@@ -184,15 +184,7 @@ public extension UIView {
       }
     }
 
-    // Perform wrapping.
-    let totalSize = fixedSpace + CGFloat(flexes) * flexSpace
-    if vertical {
-      superview.height = totalSize
-    } else {
-      superview.width = totalSize
-    }
-
-    // Perform cross alignment and wrapping.
+    // Perform alignment.
     let crossAxis = vertical ? LayoutAxis.X : LayoutAxis.Y
 
     if let alignment = align {

@@ -44,25 +44,33 @@ public enum LayoutAlignment {
   case Top
   case TopRight
   case Left
-  case Center
+  case Fill
   case Right
   case BottomLeft
   case Bottom
   case BottomRight
 
+  case TopCenter
+  case LeftCenter
+  case Center
+  case RightCenter
+  case BottomCenter
+
   var horizontalAlignment: AxisAlignment {
     switch self {
-    case TopLeft, Left, BottomLeft: return .Near
-    case Top, Center, Bottom: return .Center
-    case TopRight, Right, BottomRight: return .Far
+    case TopLeft, Left, LeftCenter, BottomLeft: return .Near
+    case Top, Fill, Bottom: return .Stretch
+    case TopCenter, Center, BottomCenter: return .Center
+    case TopRight, Right, RightCenter, BottomRight: return .Far
     }
   }
 
   var verticalAlignment: AxisAlignment {
     switch self {
-    case TopLeft, Top, TopRight: return .Near
-    case Left, Center, Right: return .Center
-    case BottomLeft, Bottom, BottomRight: return .Far
+    case TopLeft, Top, TopCenter, TopRight: return .Near
+    case Left, Fill, Right: return .Stretch
+    case LeftCenter, Center, RightCenter: return .Center
+    case BottomLeft, Bottom, BottomCenter, BottomRight: return .Far
     }
   }
 }
@@ -136,35 +144,14 @@ public extension UIView {
   ///
   /// :param: axis     The axis to use for wrapping. By default, this is both axes.
   /// :param: padding  An optional padding between the edges of the view and its subviews.
-  func wrapAroundSubviews(axis: LayoutAxis = .Both, padding: CGFloat = 0) {
+  func wrapAroundSubviews(axis: LayoutAxis = .Both) {
     let subviews = self.subviews as! [UIView]
 
     if axis.horizontal {
-      var maxWidth = maxOf(subviews.map({ $0.width })) ?? 0
-      size.width = maxWidth + 2 * padding
-
-      for view in subviews {
-        view.position.x += padding
-      }
+      size.width = maxOf(subviews.map({ $0.width })) ?? 0
     }
     if axis.vertical {
-      var maxHeight = maxOf(subviews.map({ $0.height })) ?? 0
-      size.height = maxHeight + 2 * padding
-
-      for view in subviews {
-        view.position.y += padding
-      }
-    }
-  }
-
-  /// Wraps this view around its subviews, and aligns each subview according to the given alignment.
-  func wrapAndAlign(#axis: LayoutAxis, align alignment: AxisAlignment) {
-    // First wrap.
-    wrapAroundSubviews(axis: axis)
-
-    // Then align.
-    for view in subviews as! [UIView] {
-      view.alignInSuperview(alignment, onAxis: axis)
+      size.height = maxOf(subviews.map({ $0.height })) ?? 0
     }
   }
 
