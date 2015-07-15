@@ -106,7 +106,7 @@ public extension UIView {
   ///   This example lays out a log in form in the center of their superview.
   ///
   ///     column([space(), usernameField, 10, passwordField, space()], align: .Center)
-  func column(items: [LayoutItemConvertible], align: AxisAlignment? = nil) {
+  func column(items: [LayoutItemConvertible?], align: AxisAlignment? = nil) {
     flex(true, items: items, align: align)
   }
 
@@ -119,17 +119,23 @@ public extension UIView {
   ///   This example lays out a text field and a submit button at the top of the screen.
   ///
   ///     column([10, flexible(textField), 10, button, 10], align: .Near)
-  func row(items: [LayoutItemConvertible], align: AxisAlignment) {
+  func row(items: [LayoutItemConvertible?], align: AxisAlignment) {
     flex(false, items: items, align: align)
   }
 
-  private func flex(vertical: Bool, items: [LayoutItemConvertible], align: AxisAlignment?) {
+  private func flex(vertical: Bool, items: [LayoutItemConvertible?], align: AxisAlignment?) {
     var views: [UIView]      = []
     var fixedSpace: CGFloat  = 0.0
     var flexes: Int          = 0
+    var itemCount = 0
 
     for item in items {
-      switch item.toLayoutItem() {
+      if item == nil {
+        continue
+      }
+      itemCount++
+
+      switch item!.toLayoutItem() {
       case let .Fixed(view):
         views.append(view)
         fixedSpace += (vertical ? view.frame.height : view.frame.width)
@@ -141,6 +147,9 @@ public extension UIView {
       case let .FlexibleSpace(flex):
         flexes += flex
       }
+    }
+    if itemCount == 0 {
+      return
     }
 
     if views.count == 0 {
@@ -157,7 +166,11 @@ public extension UIView {
 
     var current = CGFloat(0)
     for item in items {
-      switch item.toLayoutItem() {
+      if item == nil {
+        continue
+      }
+
+      switch item!.toLayoutItem() {
       case let .Fixed(view):
         if vertical {
           view.position.y = current
