@@ -1,7 +1,10 @@
 import Foundation
 
 public class ContainerView: UIView {
-
+  public init() {
+    super.init(frame: CGRectZero)
+    setup()
+  }
   public override init(frame: CGRect) {
     super.init(frame: frame)
     setup()
@@ -20,6 +23,11 @@ public class ContainerView: UIView {
 
 public class ThemedView: UIView {
 
+  public init() {
+    super.init(frame: CGRectZero)
+    setup()
+    applyTheme()
+  }
   public override init(frame: CGRect) {
     super.init(frame: frame)
     setup()
