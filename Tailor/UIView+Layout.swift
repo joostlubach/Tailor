@@ -108,6 +108,12 @@ public extension UIView {
 public extension UIView {
 
   /// Aligns this view with another view.
+  func alignWith(otherView: UIView, alignment: LayoutAlignment) {
+    alignWith(otherView, alignment: alignment.horizontalAlignment, onAxis: .X)
+    alignWith(otherView, alignment: alignment.verticalAlignment, onAxis: .Y)
+  }
+
+  /// Aligns this view with another view on an axis.
   func alignWith(otherView: UIView, alignment: AxisAlignment, onAxis axis: LayoutAxis) {
 
     if axis.horizontal {
