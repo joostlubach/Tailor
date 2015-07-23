@@ -106,8 +106,8 @@ public extension UIView {
   ///   This example lays out a log in form in the center of their superview.
   ///
   ///     column([space(), usernameField, 10, passwordField, space()], align: .Center)
-  func column(items: [LayoutItemConvertible?], align: AxisAlignment? = nil) {
-    flex(true, items: items, align: align)
+  func column(items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapSuperview: Bool = false) {
+    flex(true, items: items, align: align, wrapSuperview: wrapSuperview)
   }
 
   /// Lays out the given items in a row. Each specified view should have the same superview.
@@ -119,11 +119,11 @@ public extension UIView {
   ///   This example lays out a text field and a submit button at the top of the screen.
   ///
   ///     column([10, flexible(textField), 10, button, 10], align: .Near)
-  func row(items: [LayoutItemConvertible?], align: AxisAlignment) {
-    flex(false, items: items, align: align)
+  func row(items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapSuperview: Bool = false) {
+    flex(false, items: items, align: align, wrapSuperview: wrapSuperview)
   }
 
-  private func flex(vertical: Bool, items: [LayoutItemConvertible?], align: AxisAlignment?) {
+  private func flex(vertical: Bool, items: [LayoutItemConvertible?], align: AxisAlignment?, wrapSuperview: Bool) {
     var views: [UIView]      = []
     var fixedSpace: CGFloat  = 0.0
     var flexes: Int          = 0
@@ -203,6 +203,15 @@ public extension UIView {
     if let alignment = align {
       for view in views {
         view.alignInSuperview(alignment, onAxis: crossAxis)
+      }
+    }
+
+    // Perform wrapping.
+    if wrapSuperview {
+      if vertical {
+        superview.height = current
+      } else {
+        superview.width = current
       }
     }
   }
