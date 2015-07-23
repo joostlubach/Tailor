@@ -77,10 +77,7 @@ extension UITableViewCell {
       views.append(view)
     }
 
-    var contentViews = ThemeUtility.getAllViewsRecursively(contentView)
-    contentViews.removeAtIndex(0)
-
-    views += contentViews
+    views += ThemeUtility.getAllViewsRecursively(contentView)
 
     return views
   }

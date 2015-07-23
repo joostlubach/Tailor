@@ -10,10 +10,7 @@ class ThemeUtility {
       let current = todo.removeAtIndex(0)
       result.append(current)
 
-      if current === root {
-        todo += current.subviews as! [UIView]
-      }
-      if current is ContainerView || current is UIScrollView {
+      if current === root || current is RootView || current is ContainerView || current is UIScrollView {
         todo += current.subviews as! [UIView]
       }
     }
@@ -21,4 +18,4 @@ class ThemeUtility {
     return result
   }
 
-}
+}     

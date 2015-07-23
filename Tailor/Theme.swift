@@ -39,8 +39,8 @@ public class Theme {
   }
 
   public func selectRootView(block: () -> Void) {
-    assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
-    withSelectedViews([currentStylableViews[0]], block)
+    selectViewsOfType(RootView.self, block: block)
+    selectViewsOfType(ThemedView.self, block: block)
   }
 
   public func selectAllViews(block: () -> Void) {
