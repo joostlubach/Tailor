@@ -99,8 +99,8 @@ public extension UIView {
 
   /// Lays out the given items in a column. Each specified view should have the same superview.
   ///
-  /// :param: items  The items to lay out.
-  /// :param: align  An optional (horizontal) alignment for the items.
+  /// - parameter items:  The items to lay out.
+  /// - parameter align:  An optional (horizontal) alignment for the items.
   ///
   /// :Example:
   ///   This example lays out a log in form in the center of their superview.
@@ -112,8 +112,8 @@ public extension UIView {
 
   /// Lays out the given items in a row. Each specified view should have the same superview.
   ///
-  /// :param: items  The items to lay out.
-  /// :param: align  An optional (vertical) alignment for the items.
+  /// - parameter items:  The items to lay out.
+  /// - parameter align:  An optional (vertical) alignment for the items.
   ///
   /// :Example:
   ///   This example lays out a text field and a submit button at the top of the screen.
@@ -161,7 +161,7 @@ public extension UIView {
 
     let superview = views[0].superview!
 
-    var availableSpace = vertical ? superview.bounds.height : superview.bounds.width
+    let availableSpace = vertical ? superview.bounds.height : superview.bounds.width
     let flexSpace = flexes == 0 ? 0 : (availableSpace - fixedSpace) / CGFloat(flexes)
 
     var current = CGFloat(0)

@@ -11,7 +11,7 @@ class ThemeUtility {
       result.append(current)
 
       if current === root || current is RootView || current is ContainerView || current is UIScrollView {
-        todo += current.subviews as! [UIView]
+        todo += current.subviews 
       }
     }
 
