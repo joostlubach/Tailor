@@ -39,8 +39,9 @@ public class Theme {
   }
 
   public func selectRootView(block: () -> Void) {
-    selectViewsOfType(RootView.self, block: block)
-    selectViewsOfType(ThemedView.self, block: block)
+    if let view = currentThemeable.rootView {
+      withSelectedViews([view], block)
+    }
   }
 
   public func selectAllViews(block: () -> Void) {
@@ -54,7 +55,7 @@ public class Theme {
     withSelectedViews(views, block)
   }
 
-  public func selectViewsWithClassNames(classNames: [String], block: () -> Void) {
+  public func selectViewsWithAnyClassName(classNames: [String], block: () -> Void) {
     assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
     let views = currentStylableViews.filter {
       for name in classNames {
@@ -63,6 +64,19 @@ public class Theme {
         }
       }
       return false
+    }
+    withSelectedViews(views, block)
+  }
+
+  public func selectViewsWithAllClassNames(classNames: [String], block: () -> Void) {
+    assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
+    let views = currentStylableViews.filter {
+      for name in classNames {
+        if $0.classNames.filter({ $0 == name }).count == 0 {
+          return false
+        }
+      }
+      return true
     }
     withSelectedViews(views, block)
   }
@@ -99,5 +113,9 @@ public class Theme {
 }
 
 @objc public protocol Themeable {
+
+  var rootView: UIView? { get }
+
   func stylableViews() -> [UIView]
+
 }

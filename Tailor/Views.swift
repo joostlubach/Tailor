@@ -18,7 +18,6 @@ public class ContainerView: UIView {
   public func setup() {
 
   }
-
 }
 
 public class ThemedView: UIView {
@@ -56,6 +55,18 @@ public class ThemedView: UIView {
   private func applyTheme() {
     _applyTheme = true
     theme?.applyTo(self)
+  }
+
+}
+
+extension ThemedView: Themeable {
+
+  public var rootView: UIView? {
+    return self
+  }
+
+  public func stylableViews() -> [UIView] {
+    return ThemeUtility.getAllViewsRecursively(self)
   }
 
 }

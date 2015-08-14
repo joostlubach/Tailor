@@ -23,6 +23,8 @@ public let foregroundColor: Property<UIColor> = {
   }
   foregroundColor.application(UIButton.self) { button, color in
     button.setTitleColor(color, forState: .Normal)
+    button.setTitleColor(color.colorWithAlphaComponent(0.6), forState: .Highlighted)
+    button.setTitleColor(color.colorWithAlphaComponent(0.6), forState: .Highlighted | .Selected)
     return ()
   }
 
@@ -60,7 +62,10 @@ public let backgroundColor: Property<UIColor> = {
 
   backgroundColor.application { view, color in
     view.backgroundColor = color
-    view.opaque = CGColorGetAlpha(color.CGColor) == 1.0
+
+    if view.opaque && CGColorGetAlpha(color.CGColor) < 1.0 {
+      view.opaque = false
+    }
   }
   backgroundColor.application(UISearchBar.self) { bar, color in
     bar.barTintColor = color
@@ -129,6 +134,39 @@ public let cornerRadius: Property<CGFloat> = {
   }
 
   return cornerRadius
+}()
+
+// MARK: Shadow
+
+public let shadowColor: Property<UIColor> = {
+  let shadowColor = Property<UIColor>("shadow-color")
+
+  shadowColor.application(UIView.self) { view, color in
+    view.layer.shadowColor = CGColorCreateCopyWithAlpha(color.CGColor, 1.0)
+    view.layer.shadowOpacity = Float(CGColorGetAlpha(color.CGColor))
+  }
+
+  return shadowColor
+}()
+
+public let shadowOffset: Property<CGSize> = {
+  let shadowOffset = Property<CGSize>("shadow-offset")
+
+  shadowOffset.application(UIView.self) { view, offset in
+    view.layer.shadowOffset = offset
+  }
+
+  return shadowOffset
+}()
+
+public let shadowRadius: Property<CGFloat> = {
+  let shadowRadius = Property<CGFloat>("shadow-radius")
+
+  shadowRadius.application(UIView.self) { view, radius in
+    view.layer.shadowRadius = radius
+  }
+
+  return shadowRadius
 }()
 
 // MARK: -

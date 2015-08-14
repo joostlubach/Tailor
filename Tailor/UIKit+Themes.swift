@@ -14,28 +14,9 @@ public extension UIView {
     }
   }
 
-  func setValue<T>(value: T, forStyleProperty property: Property<T>) {
-    property.setValue(value, forView: self)
-  }
-
-  func addStyle<T>(style: Style<T>) {
-    style.property.setValue(style.value, forView: self)
-  }
-
-  func property<T>(property: Property<T>, wasSetToValue: T) {
-  }
-  
 }
 
-extension UIView: Themeable {
-
-  public func stylableViews() -> [UIView] {
-    return ThemeUtility.getAllViewsRecursively(self)
-  }
-
-}
-
-extension UITableView {
+extension UITableView: Themeable {
 
   public var theme: Theme? {
     get {
@@ -47,7 +28,11 @@ extension UITableView {
     }
   }
 
-  public override func stylableViews() -> [UIView] {
+  public var rootView: UIView? {
+    return self
+  }
+
+  public func stylableViews() -> [UIView] {
     var views: [UIView] = [self]
     if let view = backgroundView {
       views += ThemeUtility.getAllViewsRecursively(view)
@@ -57,9 +42,39 @@ extension UITableView {
 
 }
 
-extension UITableViewCell {
+extension UICollectionView: Themeable {
 
-  public override func stylableViews() -> [UIView] {
+  public var theme: Theme? {
+    get {
+      return objc_getAssociatedObject(self, &ThemeObjectKey) as? Theme
+    }
+    set {
+      objc_setAssociatedObject(self, &ThemeObjectKey, newValue, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+      newValue?.applyTo(self)
+    }
+  }
+
+  public var rootView: UIView? {
+    return self
+  }
+
+  public func stylableViews() -> [UIView] {
+    var views: [UIView] = [self]
+    if let view = backgroundView {
+      views += ThemeUtility.getAllViewsRecursively(view)
+    }
+    return views
+  }
+  
+}
+
+extension UITableViewCell: Themeable {
+
+  public var rootView: UIView? {
+    return backgroundView
+  }
+
+  public func stylableViews() -> [UIView] {
     var views: [UIView] = [self]
 
     views.append(imageView!)
@@ -67,10 +82,6 @@ extension UITableViewCell {
     if let label = detailTextLabel {
       label.classNames.append("cell.detail")
       views.append(label)
-    }
-    if let view = backgroundView {
-      view.classNames.append("cell.background")
-      views.append(view)
     }
     if let view = selectedBackgroundView {
       view.classNames.append("cell.selected-background")
@@ -84,9 +95,14 @@ extension UITableViewCell {
   
 }
 
-extension UICollectionViewCell {
+extension UICollectionViewCell: Themeable {
 
-  public override func stylableViews() -> [UIView] {
+  public var rootView: UIView? {
+    return contentView
+  }
+
+
+  public func stylableViews() -> [UIView] {
     var views: [UIView] = [self]
 
     if let view = backgroundView {
