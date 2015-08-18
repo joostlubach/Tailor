@@ -150,14 +150,24 @@ public extension UIView {
   ///
   /// :param: axis     The axis to use for wrapping. By default, this is both axes.
   /// :param: padding  An optional padding between the edges of the view and its subviews.
-  func wrapAroundSubviews(axis: LayoutAxis = .Both) {
+  func wrapAroundSubviews(axis: LayoutAxis = .Both, padding: CGFloat = 0) {
     let subviews = self.subviews as! [UIView]
 
     if axis.horizontal {
       size.width = maxOf(subviews.map({ $0.width })) ?? 0
+      size.width += 2 * padding
+
+      for view in subviews {
+        view.position.x += padding
+      }
     }
     if axis.vertical {
       size.height = maxOf(subviews.map({ $0.height })) ?? 0
+      size.height += 2 * padding
+
+      for view in subviews {
+        view.position.y += padding
+      }
     }
   }
 
