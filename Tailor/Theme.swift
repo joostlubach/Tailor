@@ -73,6 +73,15 @@ public class Theme {
     withSelectedViews(views, block)
   }
 
+  public func onViewsOfType<T: UIView>(type: T.Type, block: (T) -> Void) {
+    assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
+    let views = currentStylableViews.filter { $0.isKindOfClass(type) }
+
+    for view in views as! [T] {
+      block(view)
+    }
+  }
+
   public func applyCustomStylesToViewsOfType<T: UIView>(type: T.Type, block: (T) -> Void) {
     let views = currentStylableViews.filter { $0.isKindOfClass(type) }
     for view in views {
