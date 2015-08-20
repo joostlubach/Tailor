@@ -73,9 +73,10 @@ extension ThemedView: Themeable {
 
 public class RootView: ThemedView {
 
-  public convenience init(viewController: UIViewController) {
+  public init(viewController: UIViewController) {
     let window = UIApplication.sharedApplication().delegate!.window!!
-    self.init(viewController: viewController, frame: window.frame)
+    self.viewController = viewController
+    super.init(frame: window.frame)
   }
   public init(viewController: UIViewController, frame: CGRect) {
     self.viewController = viewController
