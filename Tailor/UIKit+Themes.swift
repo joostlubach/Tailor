@@ -14,9 +14,65 @@ public extension UIView {
     }
   }
 
+  var isRootView: Bool {
+    return false
+  }
+
+  var isContainerView: Bool {
+    return false
+  }
+
 }
 
-extension UITableView: Themeable {
+extension ThemedView {
+
+  override public var isRootView: Bool {
+    return true
+  }
+
+}
+
+extension UITableView {
+
+  override public var isRootView: Bool {
+    return true
+  }
+
+}
+
+extension UICollectionView {
+
+  override public var isRootView: Bool {
+    return true
+  }
+
+}
+
+extension ContainerView {
+
+  override public var isContainerView: Bool {
+    return true
+  }
+
+}
+
+extension UIScrollView {
+
+  override public var isContainerView: Bool {
+    return true
+  }
+
+}
+
+extension UIView: Themeable {
+
+  public func stylableViews() -> [UIView] {
+    return ThemeUtility.getAllViewsRecursively(self)
+  }
+  
+}
+
+extension UITableView {
 
   public var theme: Theme? {
     get {
@@ -28,11 +84,7 @@ extension UITableView: Themeable {
     }
   }
 
-  public var rootView: UIView? {
-    return self
-  }
-
-  public func stylableViews() -> [UIView] {
+  public override func stylableViews() -> [UIView] {
     var views: [UIView] = [self]
     if let view = backgroundView {
       views += ThemeUtility.getAllViewsRecursively(view)
@@ -42,7 +94,7 @@ extension UITableView: Themeable {
 
 }
 
-extension UICollectionView: Themeable {
+extension UICollectionView {
 
   public var theme: Theme? {
     get {
@@ -54,11 +106,7 @@ extension UICollectionView: Themeable {
     }
   }
 
-  public var rootView: UIView? {
-    return self
-  }
-
-  public func stylableViews() -> [UIView] {
+  public override func stylableViews() -> [UIView] {
     var views: [UIView] = [self]
     if let view = backgroundView {
       views += ThemeUtility.getAllViewsRecursively(view)
@@ -68,13 +116,10 @@ extension UICollectionView: Themeable {
   
 }
 
-extension UITableViewCell: Themeable {
 
-  public var rootView: UIView? {
-    return backgroundView
-  }
+extension UITableViewCell {
 
-  public func stylableViews() -> [UIView] {
+  public override func stylableViews() -> [UIView] {
     var views: [UIView] = [self]
 
     views.append(imageView!)
@@ -82,6 +127,10 @@ extension UITableViewCell: Themeable {
     if let label = detailTextLabel {
       label.classNames.append("cell.detail")
       views.append(label)
+    }
+    if let view = backgroundView {
+      view.classNames.append("cell.background")
+      views.append(view)
     }
     if let view = selectedBackgroundView {
       view.classNames.append("cell.selected-background")
@@ -95,14 +144,9 @@ extension UITableViewCell: Themeable {
   
 }
 
-extension UICollectionViewCell: Themeable {
+extension UICollectionViewCell {
 
-  public var rootView: UIView? {
-    return contentView
-  }
-
-
-  public func stylableViews() -> [UIView] {
+  public override func stylableViews() -> [UIView] {
     var views: [UIView] = [self]
 
     if let view = backgroundView {

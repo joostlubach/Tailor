@@ -59,18 +59,6 @@ public class ThemedView: UIView {
 
 }
 
-extension ThemedView: Themeable {
-
-  public var rootView: UIView? {
-    return self
-  }
-
-  public func stylableViews() -> [UIView] {
-    return ThemeUtility.getAllViewsRecursively(self)
-  }
-
-}
-
 public class RootView: ThemedView {
 
   public init(viewController: UIViewController) {
