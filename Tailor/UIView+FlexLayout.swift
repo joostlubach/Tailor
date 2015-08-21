@@ -87,10 +87,18 @@ extension UIView: LayoutItemConvertible {
 public extension RootView {
 
   public func top() -> LayoutItem {
-    return LayoutItem.FixedSpace(viewController.topLayoutGuide.length)
+    if viewController != nil {
+      return LayoutItem.FixedSpace(viewController.topLayoutGuide.length)
+    } else {
+      return LayoutItem.FixedSpace(0)
+    }
   }
   public func bottom() -> LayoutItem {
-    return LayoutItem.FixedSpace(viewController.bottomLayoutGuide.length)
+    if viewController != nil {
+      return LayoutItem.FixedSpace(viewController.bottomLayoutGuide.length)
+    } else {
+      return LayoutItem.FixedSpace(0)
+    }
   }
 
 }
