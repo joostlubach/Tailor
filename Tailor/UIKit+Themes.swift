@@ -1,6 +1,7 @@
 import UIKit
 
 private var ThemeObjectKey: Void?
+private var SkipStylingObjectKey: Void?
 private var ClassNamesObjectKey: Void?
 
 public extension UIView {
@@ -11,6 +12,19 @@ public extension UIView {
     }
     set {
       objc_setAssociatedObject(self, &ClassNamesObjectKey, newValue, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+    }
+  }
+
+  var skipStyling: Bool {
+    get {
+      return objc_getAssociatedObject(self, &SkipStylingObjectKey) != nil
+    }
+    set {
+      if newValue {
+        objc_setAssociatedObject(self, &SkipStylingObjectKey, 1, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+      } else {
+        objc_setAssociatedObject(self, &SkipStylingObjectKey, nil, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+      }
     }
   }
 

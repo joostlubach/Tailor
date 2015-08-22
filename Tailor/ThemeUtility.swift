@@ -14,7 +14,9 @@ class ThemeUtility {
         continue
       }
 
-      result.append(current)
+      if !current.skipStyling {
+        result.append(current)
+      }
 
       if current === root || current.isContainerView {
         todo += current.subviews as! [UIView]
