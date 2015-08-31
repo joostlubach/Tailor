@@ -108,39 +108,39 @@ public extension UIView {
 public extension UIView {
 
   /// Aligns this view with another view.
-  func alignWith(otherView: UIView, alignment: LayoutAlignment) {
-    alignWith(otherView, alignment: alignment.horizontalAlignment, onAxis: .X)
-    alignWith(otherView, alignment: alignment.verticalAlignment, onAxis: .Y)
+  func alignWith(otherView: UIView, alignment: LayoutAlignment, padding: CGFloat = 0.0) {
+    alignWith(otherView, alignment: alignment.horizontalAlignment, onAxis: .X, padding: padding)
+    alignWith(otherView, alignment: alignment.verticalAlignment, onAxis: .Y, padding: padding)
   }
 
   /// Aligns this view with another view on an axis.
-  func alignWith(otherView: UIView, alignment: AxisAlignment, onAxis axis: LayoutAxis) {
+  func alignWith(otherView: UIView, alignment: AxisAlignment, onAxis axis: LayoutAxis, padding: CGFloat = 0.0) {
 
     if axis.horizontal {
       switch alignment {
       case .Near:
-        position.x = otherView.frame.minX
+        position.x = otherView.frame.minX + padding
       case .Center:
         center.x = otherView.frame.midX
       case .Far:
-        position.x = otherView.frame.maxX - width
+        position.x = otherView.frame.maxX - padding - width
       case .Stretch:
-        width = otherView.width
-        position.x = otherView.frame.minX
+        width = otherView.width - 2 * padding
+        position.x = otherView.frame.minX + padding
       }
     }
 
     if axis.vertical {
       switch alignment {
       case .Near:
-        position.y = otherView.frame.minY
+        position.y = otherView.frame.minY + padding
       case .Center:
         center.y = otherView.frame.midY
       case .Far:
-        position.y = otherView.frame.maxY - height
+        position.y = otherView.frame.maxY - padding - height
       case .Stretch:
-        height = otherView.height
-        position.y = otherView.frame.minY
+        height = otherView.height - 2 * padding
+        position.y = otherView.frame.minY + padding
       }
     }
 
