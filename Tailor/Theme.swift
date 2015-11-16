@@ -61,12 +61,9 @@ public class Themer {
   /// All (styleable) views for the current themeable.
   private let allViews: [UIView]!
 
-  /// The currently selected views.
-  private var selectedViews: [UIView]!
-
   /// Helper to select views, execute a block, and reset.
-  private func withSelectedViews(views: [UIView], _ block: (StyleableWrapper) -> Void) {
-    for view in selectedViews {
+  private func withViews(views: [UIView], _ block: (StyleableWrapper) -> Void) {
+    for view in views {
       let wrapper = StyleableWrapper(styleable: view)
       block(wrapper)
     }
@@ -78,37 +75,37 @@ public class Themer {
   /// Selects the background view in the hierarchy.
   public func withBackgroundView(block: (StyleableWrapper) -> Void) {
     if let view = themeable.styleableBackgroundView {
-      withSelectedViews([view], block)
+      withViews([view], block)
     }
   }
 
   /// Selects all views in the hierarchy.
   public func withAllViews(block: (StyleableWrapper) -> Void) {
-    withSelectedViews(allViews, block)
+    withViews(allViews, block)
   }
 
   /// Selects views that have the given class name.
   public func withViewsWithClassName(className: String, block: (StyleableWrapper) -> Void) {
     let views = viewsWithAnyClassName([className])
-    withSelectedViews(views, block)
+    withViews(views, block)
   }
 
   /// Selects views that have any of the given class names.
   public func withViewsWithAnyClassName(classNames: [String], block: (StyleableWrapper) -> Void) {
     let views = viewsWithAnyClassName(classNames)
-    withSelectedViews(views, block)
+    withViews(views, block)
   }
 
   /// Selects views that have all of the given class names.
   public func withViewsWithAllClassNames(classNames: [String], block: (StyleableWrapper) -> Void) {
     let views = viewsWithAllClassNames(classNames)
-    withSelectedViews(views, block)
+    withViews(views, block)
   }
 
   /// Selects views of a specific type.
   public func withViewsOfType(type: UIView.Type, block: (StyleableWrapper) -> Void) {
     let views = viewsOfType(type)
-    withSelectedViews(views, block)
+    withViews(views, block)
   }
 
 

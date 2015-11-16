@@ -48,7 +48,7 @@ public class ThemedView: View, UnthemedView {
 
   /// Applies the view's theme, but only after the view set up has been completed.
   public func applyTheme() {
-    if setupComplete, let theme = self.theme {
+    if setupComplete, let theme = self.theme ?? Theme.defaultTheme {
       theme.applyTo(self)
     }
   }

@@ -17,7 +17,8 @@ public class ViewController<TView: RootView>: UIViewController {
 
   /// Loads the view.
   public override func loadView() {
-    view = TView(viewController: self, frame: CGRectZero)
+    let window = UIApplication.sharedApplication().delegate!.window!!
+    view = TView(viewController: self, frame: window.frame)
   }
 
   public override func viewDidLoad() {
@@ -29,10 +30,6 @@ public class ViewController<TView: RootView>: UIViewController {
 /// A root view for any view controller.
 public class RootView: ThemedView {
 
-  public convenience init(viewController: UIViewController) {
-    let window = UIApplication.sharedApplication().delegate!.window!!
-    self.init(viewController: viewController, frame: window.frame)
-  }
   public required init(viewController: UIViewController, frame: CGRect) {
     self.viewController = viewController
     super.init(frame: frame)

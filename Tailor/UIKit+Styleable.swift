@@ -40,6 +40,40 @@ extension UIView: BorderStyleable {
   }
 }
 
+extension UIView: ShadowStyleable {
+  public var shadowColor: UIColor? {
+    get {
+      if let color = layer.shadowColor {
+        return UIColor(CGColor: color).colorWithAlphaComponent(CGFloat(layer.shadowOpacity))
+      } else {
+        return nil
+      }
+    }
+    set {
+      layer.shadowColor = newValue?.colorWithAlphaComponent(1.0).CGColor
+      layer.shadowOpacity = newValue != nil ? Float(CGColorGetAlpha(newValue!.CGColor)) : Float(0.0)
+    }
+  }
+
+  public var shadowRadius: CGFloat {
+    get {
+      return layer.shadowRadius
+    }
+    set {
+      layer.shadowRadius = newValue
+    }
+  }
+
+  public var shadowOffset: CGSize {
+    get {
+      return layer.shadowOffset
+    }
+    set {
+      layer.shadowOffset = newValue
+    }
+  }
+}
+
 extension UIView: ForegroundStyleable {
   public var foregroundColor: UIColor? {
     get {
