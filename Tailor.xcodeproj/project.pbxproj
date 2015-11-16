@@ -23,6 +23,7 @@
 		C8B235D71BF9EB7100071AD4 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B235D61BF9EB7100071AD4 /* Defaults.swift */; };
 		C8B235DA1BF9EFE800071AD4 /* ThemeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B235D91BF9EFE800071AD4 /* ThemeProtocols.swift */; };
 		C8B235DC1BF9F51F00071AD4 /* Theme+DefaultTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B235DB1BF9F51F00071AD4 /* Theme+DefaultTheme.swift */; };
+		C8D6C2141BFA6A1B0060150D /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D6C2131BFA6A1B0060150D /* NavigationController.swift */; };
 		C8EFF7181A08282A001C0644 /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EFF7171A08282A001C0644 /* UIView+Layout.swift */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 		C8B235D61BF9EB7100071AD4 /* Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		C8B235D91BF9EFE800071AD4 /* ThemeProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeProtocols.swift; sourceTree = "<group>"; };
 		C8B235DB1BF9F51F00071AD4 /* Theme+DefaultTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+DefaultTheme.swift"; sourceTree = "<group>"; };
+		C8D6C2131BFA6A1B0060150D /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		C8EFF7171A08282A001C0644 /* UIView+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Layout.swift"; path = "Tailor/UIView+Layout.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -146,6 +148,7 @@
 			children = (
 				C88B4BA51A07E059008896BA /* Views.swift */,
 				C8B235D01BF91A8400071AD4 /* ViewController.swift */,
+				C8D6C2131BFA6A1B0060150D /* NavigationController.swift */,
 				C8EFF7171A08282A001C0644 /* UIView+Layout.swift */,
 				C8978B3C1B1B2D4400465DD1 /* UIView+FlexLayout.swift */,
 				C8B235DB1BF9F51F00071AD4 /* Theme+DefaultTheme.swift */,
@@ -268,6 +271,7 @@
 				C8B235D51BF9E78D00071AD4 /* StyleableWrapper.swift in Sources */,
 				C8978B3D1B1B2D4400465DD1 /* UIView+FlexLayout.swift in Sources */,
 				C80008A11A0BDBF200CBA227 /* UIKit+Themeable.swift in Sources */,
+				C8D6C2141BFA6A1B0060150D /* NavigationController.swift in Sources */,
 				C8B235DC1BF9F51F00071AD4 /* Theme+DefaultTheme.swift in Sources */,
 				C8B235D31BF9E76200071AD4 /* Styleable.swift in Sources */,
 				C88B4BA61A07E059008896BA /* Views.swift in Sources */,

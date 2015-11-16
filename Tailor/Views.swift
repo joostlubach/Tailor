@@ -44,7 +44,11 @@ public class ThemedView: View, UnthemedView {
   }
 
   /// The theme of this view.
-  public var theme: Theme?
+  public var theme: Theme? {
+    didSet {
+      applyTheme()
+    }
+  }
 
   /// Applies the view's theme, but only after the view set up has been completed.
   public func applyTheme() {
@@ -53,8 +57,25 @@ public class ThemedView: View, UnthemedView {
     }
   }
 
-  /// Apply the theme every time a subview is added, unless we're still initializing.
+  // Apply the theme every time a subview is added (unless we're still initializing).
+
   public override func addSubview(view: UIView) {
+    super.addSubview(view)
+    applyTheme()
+  }
+
+  public override func insertSubview(view: UIView, aboveSubview siblingSubview: UIView) {
+    super.insertSubview(view, aboveSubview: siblingSubview)
+    applyTheme()
+  }
+
+  public override func insertSubview(view: UIView, atIndex index: Int) {
+    super.insertSubview(view, atIndex: index)
+    applyTheme()
+  }
+
+  public override func insertSubview(view: UIView, belowSubview siblingSubview: UIView) {
+    super.insertSubview(view, belowSubview: siblingSubview)
     applyTheme()
   }
 
