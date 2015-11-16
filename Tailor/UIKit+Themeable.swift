@@ -10,44 +10,36 @@ public extension UIView {
       return objc_getAssociatedObject(self, &ClassNamesObjectKey) as? [String] ?? []
     }
     set {
-      objc_setAssociatedObject(self, &ClassNamesObjectKey, newValue, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+      objc_setAssociatedObject(self, &ClassNamesObjectKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
   }
 
-  func setValue<T>(value: T, forStyleProperty property: Property<T>) {
-    property.setValue(value, forView: self)
-  }
-
-  func addStyle<T>(style: Style<T>) {
-    style.property.setValue(style.value, forView: self)
-  }
-
-  func property<T>(property: Property<T>, wasSetToValue: T) {
-  }
-  
 }
 
+// All UIView's are essentially themeable.
 extension UIView: Themeable {
 
-  public func stylableViews() -> [UIView] {
+  public var styleableBackgroundView: UIView? {
+    return self
+  }
+
+  public func resolveStyleableViews() -> [UIView] {
     return ThemeUtility.getAllViewsRecursively(self)
   }
 
 }
 
+// Scroll views are considered containers.
+extension UIScrollView: ThemeContainerView {}
+
 extension UITableView {
 
-  public var theme: Theme? {
-    get {
-      return objc_getAssociatedObject(self, &ThemeObjectKey) as? Theme
-    }
-    set {
-      objc_setAssociatedObject(self, &ThemeObjectKey, newValue, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
-      newValue?.applyTo(self)
-    }
+  public override var styleableBackgroundView: UIView? {
+    return backgroundView
   }
 
-  public override func stylableViews() -> [UIView] {
+  public override func resolveStyleableViews() -> [UIView] {
+    // For UITableViews, we start at the backgroundView, not the table view itself, as it is invisible.
     var views: [UIView] = [self]
     if let view = backgroundView {
       views += ThemeUtility.getAllViewsRecursively(view)
@@ -59,7 +51,12 @@ extension UITableView {
 
 extension UITableViewCell {
 
-  public override func stylableViews() -> [UIView] {
+  public override var styleableBackgroundView: UIView? {
+    return backgroundView
+  }
+
+  public override func resolveStyleableViews() -> [UIView] {
+    // For UITableViewCells, we add some specific views, and we add all views recursively in the content view.
     var views: [UIView] = [self]
 
     views.append(imageView!)
@@ -86,7 +83,12 @@ extension UITableViewCell {
 
 extension UICollectionViewCell {
 
-  public override func stylableViews() -> [UIView] {
+  public override var styleableBackgroundView: UIView? {
+    return backgroundView
+  }
+
+  public override func resolveStyleableViews() -> [UIView] {
+    // For UICollectionViewCells, we add some specific views, and we add all views recursively in the content view.
     var views: [UIView] = [self]
 
     if let view = backgroundView {

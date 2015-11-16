@@ -1,88 +1,61 @@
-import Foundation
+import UIKit
 
-public class ContainerView: UIView {
-  public init() {
-    super.init(frame: CGRectZero)
-    setup()
-  }
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
-    setup()
-  }
-  public required init(coder: NSCoder) {
-    super.init(coder: coder)
-    setup()
-  }
-
-  /// Override this method for initialization.
-  public func setup() {
-
-  }
-
-}
-
-public class ThemedView: UIView {
+/// An easy to use view class. Place all initialization code in `setup`.
+public class View: UIView {
 
   public init() {
     super.init(frame: CGRectZero)
     setup()
-    applyTheme()
+    setupComplete = true
   }
   public override init(frame: CGRect) {
     super.init(frame: frame)
     setup()
-    applyTheme()
+    setupComplete = true
   }
-  public required init(coder: NSCoder) {
-    super.init(coder: coder)
-    setup()
-    applyTheme()
+  public required init?(coder: NSCoder) {
+    fatalError("View coding is not supported")
   }
 
-  private var _applyTheme = false
-
-  public var theme: Theme? {
-    didSet {
-      if _applyTheme {
-        theme?.applyTo(self)
-      }
-    }
-  }
+  public var setupComplete = false
 
   /// Override this method for initialization.
   public func setup() {
   }
-
-  private func applyTheme() {
-    _applyTheme = true
-    theme?.applyTo(self)
-  }
-
+  
 }
 
-public class RootView: ThemedView {
+/// A container view can be used to make sure that themes pass through to their subviews.
+public class ContainerView: View, ThemeContainerView {}
 
-  public convenience init(viewController: UIViewController) {
-    let window = UIApplication.sharedApplication().delegate!.window!!
-    self.init(viewController: viewController, frame: window.frame)
+/// A themed view can be assigned a theme, which is applied at some crucial points.
+public class ThemedView: View, UnthemedView {
+
+  public override init() {
+    super.init()
+    applyTheme()
   }
-  public init(viewController: UIViewController, frame: CGRect) {
-    self.viewController = viewController
+  public override init(frame: CGRect) {
     super.init(frame: frame)
+    applyTheme()
   }
-  required public init(coder: NSCoder) {
-    self.viewController = coder.valueForKey("viewController") as! UIViewController
-    super.init(coder: coder)
-  }
-  public override func encodeWithCoder(coder: NSCoder) {
-    super.encodeWithCoder(coder)
-    coder.setValue(viewController, forKey: "viewController")
+  public required init?(coder: NSCoder) {
+    fatalError("View coding is not supported")
   }
 
-  public weak var viewController: UIViewController! {
-    willSet {
-      assert(viewController == nil, "you may not replace the view controller")
+  /// The theme of this view.
+  public var theme: Theme?
+
+  /// Applies the view's theme, but only after the view set up has been completed.
+  public func applyTheme() {
+    if setupComplete, let theme = self.theme {
+      theme.applyTo(self)
     }
+  }
+
+  /// Apply the theme every time a subview is added, unless we're still initializing.
+  public override func addSubview(view: UIView) {
+    applyTheme()
   }
 
 }

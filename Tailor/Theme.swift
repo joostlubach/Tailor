@@ -1,62 +1,174 @@
 import Foundation
 
+/// A theme applies a bunch of styles to a view hierarchy based on rudimentary selectors. Using themes, you can accomplish
+/// a unified style with limited code.
 public class Theme {
 
-  typealias Handler = (Theme) -> Void
+  // MARK: - Initialization
 
-  public convenience init(_ name: String, handler: (Theme) -> Void) {
-    self.init(name, baseTheme: nil, handler: handler)
+  /// Initializes the theme.
+  public init(handler: (Themer) -> Void) {
+    self.handler = handler
+    self.baseTheme = nil
   }
-  public init(_ name: String, baseTheme: Theme?, handler: (Theme) -> Void) {
-    self.name = name
+
+  /// Initializes the theme with a base theme. The base theme is applied first, before applying this theme.
+  public init(baseTheme: Theme, handler: (Themer) -> Void) {
     self.handler = handler
     self.baseTheme = baseTheme
   }
 
-  let name: String
-  let handler: Handler
-  let baseTheme: Theme?
 
-  var currentThemeable: Themeable!
-  var currentStylableViews: [UIView]!
-  var selectedViews: [UIView]!
 
+  // MARK: Properties
+
+  /// The theme handler.
+  let handler: (Themer) -> Void
+
+  /// An optional base theme for this theme.
+  public let baseTheme: Theme?
+
+
+
+  // MARK: - Application
+
+  /// Applies the theme to the given themeable.
   public func applyTo(themeable: Themeable) {
-    currentThemeable = themeable
-    currentStylableViews = themeable.stylableViews()
-
+    // First apply an optional base theme.
     baseTheme?.applyTo(themeable)
-    handler(self)
 
-    currentStylableViews = nil
-    currentThemeable = nil
+    let themer = Themer(theme: self, themeable: themeable)
+    handler(themer)
   }
 
-  private func withSelectedViews(views: [UIView], _ block: () -> Void) {
-    selectedViews = views
-    block()
-    selectedViews = nil
+}
+
+/// A class used to apply a specific theme.
+public class Themer {
+
+  init(theme: Theme, themeable: Themeable) {
+    self.theme = theme
+    self.themeable = themeable
+    self.allViews = themeable.resolveStyleableViews()
   }
 
-  public func selectRootView(block: () -> Void) {
-    selectViewsOfType(RootView.self, block: block)
-    selectViewsOfType(ThemedView.self, block: block)
+  /// The theme that is being applied.
+  public let theme: Theme
+
+  /// The themeable that is being styled.
+  public let themeable: Themeable!
+
+  /// All (styleable) views for the current themeable.
+  private let allViews: [UIView]!
+
+  /// The currently selected views.
+  private var selectedViews: [UIView]!
+
+  /// Helper to select views, execute a block, and reset.
+  private func withSelectedViews(views: [UIView], _ block: (StyleableWrapper) -> Void) {
+    for view in selectedViews {
+      let wrapper = StyleableWrapper(styleable: view)
+      block(wrapper)
+    }
   }
 
-  public func selectAllViews(block: () -> Void) {
-    assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
-    withSelectedViews(currentStylableViews, block)
+
+  // MARK: - Selectors
+
+  /// Selects the background view in the hierarchy.
+  public func withBackgroundView(block: (StyleableWrapper) -> Void) {
+    if let view = themeable.styleableBackgroundView {
+      withSelectedViews([view], block)
+    }
   }
 
-  public func selectViewsWithClassName(className: String, block: () -> Void) {
-    assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
-    let views = currentStylableViews.filter { $0.classNames.filter({ $0 == className }).count > 0 }
+  /// Selects all views in the hierarchy.
+  public func withAllViews(block: (StyleableWrapper) -> Void) {
+    withSelectedViews(allViews, block)
+  }
+
+  /// Selects views that have the given class name.
+  public func withViewsWithClassName(className: String, block: (StyleableWrapper) -> Void) {
+    let views = viewsWithAnyClassName([className])
     withSelectedViews(views, block)
   }
 
-  public func selectViewsWithClassNames(classNames: [String], block: () -> Void) {
-    assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
-    let views = currentStylableViews.filter {
+  /// Selects views that have any of the given class names.
+  public func withViewsWithAnyClassName(classNames: [String], block: (StyleableWrapper) -> Void) {
+    let views = viewsWithAnyClassName(classNames)
+    withSelectedViews(views, block)
+  }
+
+  /// Selects views that have all of the given class names.
+  public func withViewsWithAllClassNames(classNames: [String], block: (StyleableWrapper) -> Void) {
+    let views = viewsWithAllClassNames(classNames)
+    withSelectedViews(views, block)
+  }
+
+  /// Selects views of a specific type.
+  public func withViewsOfType(type: UIView.Type, block: (StyleableWrapper) -> Void) {
+    let views = viewsOfType(type)
+    withSelectedViews(views, block)
+  }
+
+
+  // MARK: - Style application
+
+  /// Applies the given style to the root view.
+  public func applyStyleToBackgroundView(style: Style) {
+    if let view = themeable.styleableBackgroundView {
+      style.applyTo(view)
+    }
+  }
+
+  /// Applies the given style to all views.
+  public func applyStyleToRootView(style: Style) {
+    for view in allViews {
+      style.applyTo(view)
+    }
+  }
+
+  /// Applies the given style to all views with the given class name.
+  public func applyStyle(style: Style, toViewsWithClassName className: String) {
+    for view in viewsWithAnyClassName([className]) {
+      style.applyTo(view)
+    }
+  }
+
+  /// Applies the given style to all views with any of the given class names.
+  public func applyStyle(style: Style, toViewsWithAnyClassName classNames: [String]) {
+    for view in viewsWithAnyClassName(classNames) {
+      style.applyTo(view)
+    }
+  }
+
+  /// Applies the given style to all views with all of the given class names.
+  public func applyStyle(style: Style, toViewsWithAllClassNames classNames: [String]) {
+    for view in viewsWithAllClassNames(classNames) {
+      style.applyTo(view)
+    }
+  }
+
+  /// Applies the given style to all views of the given type.
+  public func applyStyle(style: Style, toViewsOfType type: UIView.Type) {
+    for view in viewsOfType(type) {
+      style.applyTo(view)
+    }
+  }
+
+  /// Applies the given style to all views of the given type.
+  public func applyStyle<T: UIView>(style: StyleFor<T>, toViewsOfType type: T.Type) {
+    for view in viewsOfType(type) {
+      style.applyTo(view as! T)
+    }
+  }
+
+
+  // MARK: - Selection helpers
+
+  /// Obtains all views that have any of the given class names.
+  private func viewsWithAnyClassName(classNames: [String]) -> [UIView] {
+    return allViews.filter {
       for name in classNames {
         if $0.classNames.filter({ $0 == name }).count > 0 {
           return true
@@ -64,49 +176,21 @@ public class Theme {
       }
       return false
     }
-    withSelectedViews(views, block)
   }
 
-  public func selectViewsOfType(type: UIView.Type, block: () -> Void) {
-    assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
-    let views = currentStylableViews.filter { $0.isKindOfClass(type) }
-    withSelectedViews(views, block)
-  }
-
-  public func onViewsOfType<T: UIView>(type: T.Type, block: (T) -> Void) {
-    assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
-    let views = currentStylableViews.filter { $0.isKindOfClass(type) }
-
-    for view in views as! [T] {
-      block(view)
+  /// Obtains all views that have all of the given class names.
+  private func viewsWithAllClassNames(classNames: [String]) -> [UIView] {
+    return allViews.filter {
+      for name in classNames {
+        if $0.classNames.filter({ $0 == name }).count == 0 {
+          return false
+        }
+      }
+      return true
     }
   }
 
-  public func applyCustomStylesToViewsOfType<T: UIView>(type: T.Type, block: (T) -> Void) {
-    let views = currentStylableViews.filter { $0.isKindOfClass(type) }
-    for view in views {
-      block(view as! T)
-    }
+  /// Obtains all views of the given type.
+  private func viewsOfType(type: UIView.Type) -> [UIView] {
+    return allViews.filter { $0.isKindOfClass(type) }  }
   }
-
-  public func setValue<T>(value: T, forProperty property: Property<T>) {
-    assert(selectedViews != nil, "no views selected")
-
-    for view in selectedViews {
-      property.setValue(value, forView: view)
-    }
-  }
-
-  public func addStyle<T>(style: Style<T>) {
-    assert(selectedViews != nil, "no views selected")
-
-    for view in selectedViews {
-      style.applyTo(view)
-    }
-  }
-
-}
-
-@objc public protocol Themeable {
-  func stylableViews() -> [UIView]
-}

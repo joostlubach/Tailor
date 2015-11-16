@@ -161,7 +161,7 @@ public extension UIView {
 
     let superview = views[0].superview!
 
-    var availableSpace = vertical ? superview.bounds.height : superview.bounds.width
+    let availableSpace = vertical ? superview.bounds.height : superview.bounds.width
     let flexSpace = flexes == 0 ? 0 : (availableSpace - fixedSpace) / CGFloat(flexes)
 
     var current = CGFloat(0)
