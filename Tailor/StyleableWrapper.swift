@@ -162,19 +162,38 @@ extension StyleableWrapper: ShadowStyleable {
 
 }
 
+extension StyleableWrapper: EdgeStyleable {
+
+  public var padding: UIEdgeInsets {
+    get {
+      if let contentStyleable = styleable as? EdgeStyleable {
+        return contentStyleable.padding
+      } else {
+        return UIEdgeInsetsZero
+      }
+    }
+    set {
+      if let contentStyleable = styleable as? EdgeStyleable {
+        contentStyleable.padding = newValue
+      }
+    }
+  }
+
+}
+
 extension StyleableWrapper: TextStyleable {
 
-  public var fontFamily: String? {
+  public var fontName: String? {
     get {
       if let textStyleable = styleable as? TextStyleable {
-        return textStyleable.fontFamily
+        return textStyleable.fontName
       } else {
         return nil
       }
     }
     set {
       if let textStyleable = styleable as? TextStyleable {
-        textStyleable.fontFamily = newValue
+        textStyleable.fontName = newValue
       }
     }
   }

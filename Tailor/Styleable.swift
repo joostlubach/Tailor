@@ -23,7 +23,11 @@ public protocol ShadowStyleable: class {
   var shadowOffset: CGSize { get set }
 }
 
+public protocol EdgeStyleable: class {
+  var padding: UIEdgeInsets { get set }
+}
+
 public protocol TextStyleable: class {
-  var fontFamily: String? { get set }
+  var fontName: String? { get set }
   var fontSize: CGFloat { get set }
 }

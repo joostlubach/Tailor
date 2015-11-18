@@ -48,19 +48,21 @@ public class Style {
 ///     }
 ///
 /// In this example, the `button` parameter passed to the block is of type `CustomButton`.
-public class StyleFor<T> {
+public class StyleFor<T: AnyObject> {
 
-  /// Initializes the style.
-  public init(handler: (T) -> Void) {
+  /// Initializes the style with a handler taking a specific instance of this class, but also a generic style wrapper,
+  /// to apply generic styles.
+  public init(handler: (T, StyleableWrapper) -> Void) {
     self.handler = handler
   }
 
   /// The handler.
-  let handler: (T) -> Void
+  let handler: (T, StyleableWrapper) -> Void
 
   /// Applies the style to the given styleable.
   public func applyTo(styleable: T) {
-    handler(styleable)
+    let wrapper = StyleableWrapper(styleable: styleable)
+    handler(styleable, wrapper)
   }
 
 }

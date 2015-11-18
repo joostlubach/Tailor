@@ -14,6 +14,7 @@
 		C81A9CDD1A0799C600EE15A7 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81A9CDA1A0799C600EE15A7 /* Theme.swift */; };
 		C81A9CE01A0799F900EE15A7 /* UIKit+Styleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81A9CDF1A0799F900EE15A7 /* UIKit+Styleable.swift */; };
 		C81A9CED1A07B90300EE15A7 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81A9CEC1A07B90300EE15A7 /* Style.swift */; };
+		C83560EB1BFCD97700B7D320 /* FontUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83560EA1BFCD97700B7D320 /* FontUtility.swift */; };
 		C88B4BA41A07DFF8008896BA /* ThemeUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88B4BA31A07DFF8008896BA /* ThemeUtility.swift */; };
 		C88B4BA61A07E059008896BA /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88B4BA51A07E059008896BA /* Views.swift */; };
 		C8978B3D1B1B2D4400465DD1 /* UIView+FlexLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8978B3C1B1B2D4400465DD1 /* UIView+FlexLayout.swift */; };
@@ -48,6 +49,7 @@
 		C81A9CDA1A0799C600EE15A7 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		C81A9CDF1A0799F900EE15A7 /* UIKit+Styleable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+Styleable.swift"; sourceTree = "<group>"; };
 		C81A9CEC1A07B90300EE15A7 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		C83560EA1BFCD97700B7D320 /* FontUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontUtility.swift; sourceTree = "<group>"; };
 		C88B4BA31A07DFF8008896BA /* ThemeUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeUtility.swift; sourceTree = "<group>"; };
 		C88B4BA51A07E059008896BA /* Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Views.swift; path = Tailor/Views.swift; sourceTree = "<group>"; };
 		C8978B3C1B1B2D4400465DD1 /* UIView+FlexLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+FlexLayout.swift"; path = "Tailor/UIView+FlexLayout.swift"; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				C80008A01A0BDBF200CBA227 /* UIKit+Themeable.swift */,
 				C88B4BA31A07DFF8008896BA /* ThemeUtility.swift */,
 				C8B235D61BF9EB7100071AD4 /* Defaults.swift */,
+				C83560EA1BFCD97700B7D320 /* FontUtility.swift */,
 			);
 			path = Tailor;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				C8B235D51BF9E78D00071AD4 /* StyleableWrapper.swift in Sources */,
 				C8978B3D1B1B2D4400465DD1 /* UIView+FlexLayout.swift in Sources */,
 				C80008A11A0BDBF200CBA227 /* UIKit+Themeable.swift in Sources */,
+				C83560EB1BFCD97700B7D320 /* FontUtility.swift in Sources */,
 				C8D6C2141BFA6A1B0060150D /* NavigationController.swift in Sources */,
 				C8B235DC1BF9F51F00071AD4 /* Theme+DefaultTheme.swift in Sources */,
 				C8B235D31BF9E76200071AD4 /* Styleable.swift in Sources */,

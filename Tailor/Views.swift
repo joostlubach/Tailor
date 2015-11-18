@@ -14,7 +14,7 @@ public class View: UIView {
     setupComplete = true
   }
   public required init?(coder: NSCoder) {
-    fatalError("View coding is not supported")
+    fatalError("view coding is not supported in Builder classes")
   }
 
   public var setupComplete = false
@@ -40,7 +40,7 @@ public class ThemedView: View, UnthemedView {
     applyTheme()
   }
   public required init?(coder: NSCoder) {
-    fatalError("View coding is not supported")
+    fatalError("view coding is not supported in Builder classes")
   }
 
   /// The theme of this view.
@@ -79,4 +79,64 @@ public class ThemedView: View, UnthemedView {
     applyTheme()
   }
 
+}
+
+/// Easy to use base class for buttons. Place initialization code in `setup`.
+public class Button: UIButton {
+  public init() {
+    super.init(frame: CGRectZero)
+    setup()
+  }
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+    setup()
+  }
+  public required init(coder: NSCoder) {
+    fatalError("view coding is not supported in Builder classes")
+  }
+  public func setup() {}
+}
+
+/// Easy to use base class for controls. Place initialization code in `setup`.
+public class Control: UIControl {
+  public init() {
+    super.init(frame: CGRectZero)
+    setup()
+  }
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+    setup()
+  }
+  public required init(coder: NSCoder) {
+    fatalError("view coding is not supported in Builder classes")
+  }
+  public func setup() {}
+}
+
+/// Easy to use base class for table view cells. Place initialization code in `setup`.
+public class TableViewCell: UITableViewCell {
+  public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+    setup()
+  }
+  public required init(coder: NSCoder) {
+    fatalError("view coding is not supported in Builder classes")
+  }
+  public func setup() {}
+}
+
+/// Easy to use base class for collection view cells. Place initialization code in `setup`.
+public class CollectionViewCell: UICollectionViewCell {
+  public init() {
+    super.init(frame: CGRectZero)
+    setup()
+  }
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+    setup()
+  }
+  public required init(coder: NSCoder) {
+    fatalError("view coding is not supported in Builder classes")
+  }
+  public func setup() {}
 }

@@ -97,6 +97,17 @@ extension UIButton {
   }
 }
 
+extension UIButton: EdgeStyleable {
+  public var padding: UIEdgeInsets {
+    get {
+      return contentEdgeInsets
+    }
+    set {
+      contentEdgeInsets = newValue
+    }
+  }
+}
+
 extension UILabel {
   public override var foregroundColor: UIColor? {
     get {
@@ -134,9 +145,9 @@ extension UITextView {
 }
 
 extension UILabel: TextStyleable {
-  public var fontFamily: String? {
+  public var fontName: String? {
     get {
-      return font?.familyName
+      return font?.fontName
     }
     set {
       if let name = newValue {
@@ -152,11 +163,31 @@ extension UILabel: TextStyleable {
       return font?.pointSize ?? Defaults.fontSize
     }
     set {
-      if let fontFamilyName = fontFamily {
-        self.font = UIFont(name: fontFamilyName, size: newValue)
+      if let fontName = self.fontName {
+        self.font = UIFont(name: fontName, size: newValue)
       } else {
         self.font = UIFont.systemFontOfSize(newValue)
       }
+    }
+  }
+}
+
+extension UIButton: TextStyleable {
+  public var fontName: String? {
+    get {
+      return titleLabel?.fontName
+    }
+    set {
+      titleLabel?.fontName = newValue
+    }
+  }
+
+  public var fontSize: CGFloat {
+    get {
+      return titleLabel?.fontSize ?? Defaults.fontSize
+    }
+    set {
+      titleLabel?.fontSize = newValue
     }
   }
 }
