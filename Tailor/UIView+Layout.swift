@@ -107,6 +107,15 @@ public extension UIView {
 
 public extension UIView {
 
+  /// Sizes this view to fit, unless it is hidden, in which case it gets `CGSizeZero`.
+  func sizeToFitWhenShown() {
+    if hidden {
+      size = CGSizeZero
+    } else {
+      sizeToFit()
+    }
+  }
+
   /// Aligns this view with another view.
   func alignWith(otherView: UIView, alignment: LayoutAlignment) {
     alignWith(otherView, alignment: alignment.horizontalAlignment, onAxis: .X)
@@ -148,8 +157,8 @@ public extension UIView {
 
   /// Wraps this view around its subviews on the given axis.
   ///
-  /// :param: axis     The axis to use for wrapping. By default, this is both axes.
-  /// :param: padding  An optional padding between the edges of the view and its subviews.
+  /// - parameter axis:     The axis to use for wrapping. By default, this is both axes.
+  /// - parameter padding:  An optional padding between the edges of the view and its subviews.
   func wrapAroundSubviews(axis: LayoutAxis = .Both, padding: CGFloat = 0) {
     if axis.horizontal {
       size.width = maxOf(subviews.map({ $0.width })) ?? 0

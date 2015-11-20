@@ -6,7 +6,7 @@ public class ViewController<TView: RootView>: UIViewController {
   public init() {
     super.init(nibName: nil, bundle: nil)
   }
-  public required init(coder: NSCoder) {
+  public required init?(coder: NSCoder) {
     abort()
   }
 
@@ -34,7 +34,7 @@ public class RootView: ThemedView {
     self.viewController = viewController
     super.init(frame: frame)
   }
-  required public init(coder: NSCoder) {
+  required public init?(coder: NSCoder) {
     fatalError("RootView does not support coding")
   }
 

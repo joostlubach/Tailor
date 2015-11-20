@@ -15,7 +15,7 @@ public class NavigationController: UINavigationController {
     super.init(rootViewController: rootViewController)
     applyTheme()
   }
-  public required init(coder: NSCoder) {
+  public required init?(coder: NSCoder) {
     abort()
   }
 
