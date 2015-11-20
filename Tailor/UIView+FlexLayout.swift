@@ -99,31 +99,31 @@ public extension UIView {
 
   /// Lays out the given items in a column. Each specified view should have the same superview.
   ///
-  /// :param: items  The items to lay out.
-  /// :param: align  An optional (horizontal) alignment for the items.
+  /// - parameter items:  The items to lay out.
+  /// - parameter align:  An optional (horizontal) alignment for the items.
   ///
   /// :Example:
   ///   This example lays out a log in form in the center of their superview.
   ///
   ///     column([space(), usernameField, 10, passwordField, space()], align: .Center)
-  func column(items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapSuperview: Bool = false) {
-    flex(true, items: items, align: align, wrapSuperview: wrapSuperview)
+  func column(items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapCross: Bool = false, wrapAlong: Bool = false, crossPadding: CGFloat = 0) {
+    flex(true, items: items, align: align, wrapCross: wrapCross, wrapAlong: wrapAlong, crossPadding: crossPadding)
   }
 
   /// Lays out the given items in a row. Each specified view should have the same superview.
   ///
-  /// :param: items  The items to lay out.
-  /// :param: align  An optional (vertical) alignment for the items.
+  /// - parameter items:  The items to lay out.
+  /// - parameter align:  An optional (vertical) alignment for the items.
   ///
   /// :Example:
   ///   This example lays out a text field and a submit button at the top of the screen.
   ///
   ///     column([10, flexible(textField), 10, button, 10], align: .Near)
-  func row(items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapSuperview: Bool = false) {
-    flex(false, items: items, align: align, wrapSuperview: wrapSuperview)
+  func row(items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapCross: Bool = false, wrapAlong: Bool = false, crossPadding: CGFloat = 0) {
+    flex(false, items: items, align: align, wrapCross: wrapCross, wrapAlong: wrapAlong, crossPadding: crossPadding)
   }
 
-  private func flex(vertical: Bool, items: [LayoutItemConvertible?], align: AxisAlignment?, wrapSuperview: Bool) {
+  private func flex(vertical: Bool, items: [LayoutItemConvertible?], align: AxisAlignment?, wrapCross: Bool = false, wrapAlong: Bool = false, crossPadding: CGFloat = 0) {
     var views: [UIView]      = []
     var fixedSpace: CGFloat  = 0.0
     var flexes: Int          = 0
@@ -197,21 +197,32 @@ public extension UIView {
       }
     }
 
-    // Perform alignment.
     let crossAxis = vertical ? LayoutAxis.X : LayoutAxis.Y
 
-    if let alignment = align {
-      for view in views {
-        view.alignInSuperview(alignment, onAxis: crossAxis)
+    // Perform cross wrapping.
+    if wrapCross {
+      if vertical {
+        let maxWidth = views.map({$0.width}).maxElement() ?? 0
+        superview.width = maxWidth + 2 * crossPadding
+      } else {
+        let maxHeight = views.map({$0.height}).maxElement() ?? 0
+        superview.height = maxHeight + 2 * crossPadding
       }
     }
 
-    // Perform wrapping.
-    if wrapSuperview {
+    // Perform along wrapping.
+    if wrapAlong {
       if vertical {
         superview.height = current
       } else {
         superview.width = current
+      }
+    }
+
+    // Perform alignment.
+    if let alignment = align {
+      for view in views {
+        view.alignInSuperview(alignment, onAxis: crossAxis)
       }
     }
   }
