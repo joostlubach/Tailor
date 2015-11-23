@@ -191,3 +191,31 @@ extension UIButton: TextStyleable {
     }
   }
 }
+
+extension UITextField: TextStyleable {
+  public var fontName: String? {
+    get {
+      return font?.fontName
+    }
+    set {
+      if let name = newValue {
+        font = UIFont(name: name, size: fontSize)
+      } else {
+        font = nil
+      }
+    }
+  }
+
+  public var fontSize: CGFloat {
+    get {
+      return font?.pointSize ?? Defaults.fontSize
+    }
+    set {
+      if let fontName = self.fontName {
+        self.font = UIFont(name: fontName, size: newValue)
+      } else {
+        self.font = UIFont.systemFontOfSize(newValue)
+      }
+    }
+  }
+}

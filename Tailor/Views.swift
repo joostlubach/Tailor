@@ -57,6 +57,10 @@ public class ThemedView: View, UnthemedView {
     }
   }
 
+  public override var styleableBackgroundView: UIView? {
+    return self
+  }
+
   // Apply the theme every time a subview is added (unless we're still initializing).
 
   public override func addSubview(view: UIView) {

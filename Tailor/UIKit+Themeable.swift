@@ -20,7 +20,7 @@ public extension UIView {
 extension UIView: Themeable {
 
   public var styleableBackgroundView: UIView? {
-    return self
+    return nil
   }
 
   public func resolveStyleableViews() -> [UIView] {
