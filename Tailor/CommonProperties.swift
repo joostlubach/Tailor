@@ -24,7 +24,7 @@ public let foregroundColor: Property<UIColor> = {
   foregroundColor.application(UIButton.self) { button, color in
     button.setTitleColor(color, forState: .Normal)
     button.setTitleColor(color.colorWithAlphaComponent(0.6), forState: .Highlighted)
-    button.setTitleColor(color.colorWithAlphaComponent(0.6), forState: .Highlighted | .Selected)
+    button.setTitleColor(color.colorWithAlphaComponent(0.6), forState: [.Highlighted, .Selected])
     return ()
   }
 

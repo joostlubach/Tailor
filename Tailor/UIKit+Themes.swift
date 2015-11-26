@@ -11,7 +11,7 @@ public extension UIView {
       return objc_getAssociatedObject(self, &ClassNamesObjectKey) as? [String] ?? []
     }
     set {
-      objc_setAssociatedObject(self, &ClassNamesObjectKey, newValue, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+      objc_setAssociatedObject(self, &ClassNamesObjectKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
   }
 
@@ -21,9 +21,9 @@ public extension UIView {
     }
     set {
       if newValue {
-        objc_setAssociatedObject(self, &SkipStylingObjectKey, 1, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+        objc_setAssociatedObject(self, &SkipStylingObjectKey, 1, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
       } else {
-        objc_setAssociatedObject(self, &SkipStylingObjectKey, nil, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+        objc_setAssociatedObject(self, &SkipStylingObjectKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
       }
     }
   }
@@ -93,7 +93,7 @@ extension UITableView {
       return objc_getAssociatedObject(self, &ThemeObjectKey) as? Theme
     }
     set {
-      objc_setAssociatedObject(self, &ThemeObjectKey, newValue, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+      objc_setAssociatedObject(self, &ThemeObjectKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
       newValue?.applyTo(self)
     }
   }
@@ -115,7 +115,7 @@ extension UICollectionView {
       return objc_getAssociatedObject(self, &ThemeObjectKey) as? Theme
     }
     set {
-      objc_setAssociatedObject(self, &ThemeObjectKey, newValue, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+      objc_setAssociatedObject(self, &ThemeObjectKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
       newValue?.applyTo(self)
     }
   }

@@ -19,7 +19,7 @@ class ThemeUtility {
       }
 
       if current === root || current.isContainerView {
-        todo += current.subviews as! [UIView]
+        todo += current.subviews 
       }
     }
 

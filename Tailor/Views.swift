@@ -9,7 +9,7 @@ public class ContainerView: UIView {
     super.init(frame: frame)
     setup()
   }
-  public required init(coder: NSCoder) {
+  public required init?(coder: NSCoder) {
     super.init(coder: coder)
     setup()
   }
@@ -32,7 +32,7 @@ public class ThemedView: UIView {
     setup()
     applyTheme()
   }
-  public required init(coder: NSCoder) {
+  public required init?(coder: NSCoder) {
     super.init(coder: coder)
     setup()
     applyTheme()
@@ -70,7 +70,7 @@ public class RootView: ThemedView {
     self.viewController = viewController
     super.init(frame: frame)
   }
-  required public init(coder: NSCoder) {
+  required public init?(coder: NSCoder) {
     self.viewController = coder.valueForKey("viewController") as! UIViewController
     super.init(coder: coder)
   }
