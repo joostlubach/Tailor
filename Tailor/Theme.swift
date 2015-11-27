@@ -162,6 +162,33 @@ public class Themer {
     }
   }
 
+  /// Applies the given style to all views with the given class name.
+  public func applyStyle<T: UIView>(style: StyleFor<T>, toViewsWithClassName className: String) {
+    for view in viewsWithAnyClassName([className]) {
+      if let typedView = view as? T {
+        style.applyTo(typedView)
+      }
+    }
+  }
+
+  /// Applies the given style to all views with any of the given class names.
+  public func applyStyle<T: UIView>(style: StyleFor<T>, toViewsWithAnyClassName classNames: [String]) {
+    for view in viewsWithAnyClassName(classNames) {
+      if let typedView = view as? T {
+        style.applyTo(typedView)
+      }
+    }
+  }
+
+  /// Applies the given style to all views with all of the given class names.
+  public func applyStyle<T: UIView>(style: StyleFor<T>, toViewsWithAllClassNames classNames: [String]) {
+    for view in viewsWithAllClassNames(classNames) {
+      if let typedView = view as? T {
+        style.applyTo(typedView)
+      }
+    }
+  }
+  
   /// Applies the given style to all views of the given type.
   public func applyStyle<T: UIView>(style: StyleFor<T>, toViewsOfType type: T.Type) {
     for view in viewsOfType(type) {
