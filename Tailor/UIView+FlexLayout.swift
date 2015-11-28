@@ -222,7 +222,7 @@ public extension UIView {
     // Perform alignment.
     if let alignment = align {
       for view in views {
-        view.alignInSuperview(alignment, onAxis: crossAxis)
+        view.alignInSuperview(alignment, onAxis: crossAxis, padding: crossPadding)
       }
     }
   }
