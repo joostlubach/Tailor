@@ -1,33 +1,41 @@
 import UIKit
 
-// This file contains the protocols Styleable objects can conform to.
+// This file contains the protocols styleable objects can conform to.
 
 public protocol BackgroundStyleable: class {
-  var opacity: CGFloat { get set }
-  var backgroundColor: UIColor? { get set }
+  var style_opacity: CGFloat { get set }
+  var style_backgroundColor: UIColor? { get set }
 }
 
 public protocol ForegroundStyleable: class {
-  var foregroundColor: UIColor? { get set }
+  var style_foregroundColor: UIColor? { get set }
 }
 
 public protocol BorderStyleable: class {
-  var borderColor: UIColor? { get set }
-  var borderWidth: CGFloat { get set }
-  var cornerRadius: CGFloat { get set }
+  var style_borderColor: UIColor? { get set }
+  var style_borderWidth: CGFloat { get set }
+}
+
+public protocol CornerStyleable: class {
+  var style_cornerRadius: CGFloat { get set }
 }
 
 public protocol ShadowStyleable: class {
-  var shadowColor: UIColor? { get set }
-  var shadowRadius: CGFloat { get set }
-  var shadowOffset: CGSize { get set }
+  var style_shadowColor: UIColor? { get set }
+  var style_shadowRadius: CGFloat { get set }
+  var style_shadowOffset: CGSize { get set }
 }
 
-public protocol EdgeStyleable: class {
-  var padding: UIEdgeInsets { get set }
+public protocol InnerShadowStyleable: class {
+  var style_innerShadowColor: UIColor? { get set }
+  var style_innerShadowRadius: CGFloat { get set }
+  var style_innerShadowOffset: CGSize { get set }
+}
+
+public protocol EdgeInsetsStyleable: class {
+  var style_edgeInsets: UIEdgeInsets { get set }
 }
 
 public protocol TextStyleable: class {
-  var fontName: String? { get set }
-  var fontSize: CGFloat { get set }
+  var style_font: UIFont? { get set }
 }

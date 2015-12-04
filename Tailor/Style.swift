@@ -1,5 +1,9 @@
 import Foundation
 
+public protocol StyleType {
+  func applyTo(styleable: AnyObject)
+}
+
 /// Defines a certain style for any `Styleable` object. A `Style` is in essence nothing more than a block
 /// that receives an instance of `StyleableWrapper`. For each styleable object that is styled with the style,
 /// the styleable is wrapped and the handler is executed.
@@ -18,7 +22,7 @@ import Foundation
 /// `BorderStyleable` and `TextStyleable`, the wrapper will know what to do.
 ///
 /// If you want to define a style for a specific class, use `StyleFor<T>`.
-public class Style {
+public class Style: StyleType {
 
   /// Initializes the style.
   public init(handler: (StyleableWrapper) -> Void) {
@@ -48,7 +52,7 @@ public class Style {
 ///     }
 ///
 /// In this example, the `button` parameter passed to the block is of type `CustomButton`.
-public class StyleFor<T: AnyObject> {
+public class StyleFor<T: AnyObject>: StyleType {
 
   /// Initializes the style with a handler taking a specific instance of this class, but also a generic style wrapper,
   /// to apply generic styles.
@@ -60,9 +64,11 @@ public class StyleFor<T: AnyObject> {
   let handler: (T, StyleableWrapper) -> Void
 
   /// Applies the style to the given styleable.
-  public func applyTo(styleable: T) {
-    let wrapper = StyleableWrapper(styleable: styleable)
-    handler(styleable, wrapper)
+  public func applyTo(styleable: AnyObject) {
+    if let typedStyleable = styleable as? T {
+      let wrapper = StyleableWrapper(styleable: styleable)
+      handler(typedStyleable, wrapper)
+    }
   }
 
 }

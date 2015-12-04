@@ -35,7 +35,7 @@ extension UIScrollView: ThemeContainerView {}
 extension UITableView {
 
   public override var styleableBackgroundView: UIView? {
-    return backgroundView
+    return backgroundView ?? self
   }
 
   public override func resolveStyleableViews() -> [UIView] {
@@ -52,7 +52,7 @@ extension UITableView {
 extension UITableViewCell {
 
   public override var styleableBackgroundView: UIView? {
-    return backgroundView
+    return backgroundView ?? self
   }
 
   public override func resolveStyleableViews() -> [UIView] {
@@ -84,7 +84,7 @@ extension UITableViewCell {
 extension UICollectionViewCell {
 
   public override var styleableBackgroundView: UIView? {
-    return backgroundView
+    return backgroundView ?? self
   }
 
   public override func resolveStyleableViews() -> [UIView] {

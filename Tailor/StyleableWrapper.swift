@@ -10,207 +10,159 @@ public class StyleableWrapper {
 
 }
 
-extension StyleableWrapper: BackgroundStyleable {
+// MARK: BackgroundStyleable
+extension StyleableWrapper {
 
+  private var backgroundStyleable: BackgroundStyleable? {
+    return styleable as? BackgroundStyleable
+  }
+
+  /// The opacity of the styled object, if it is BackgroundStyleable.
   public var opacity: CGFloat {
-    get {
-      if let backgroundStyleable = styleable as? BackgroundStyleable {
-        return backgroundStyleable.opacity
-      } else {
-        return 0
-      }
-    }
-    set {
-      if let backgroundStyleable = styleable as? BackgroundStyleable {
-        backgroundStyleable.opacity = newValue
-      }
-    }
+    get { return backgroundStyleable?.style_opacity ?? 1 }
+    set { backgroundStyleable?.style_opacity = newValue }
   }
 
+  /// The background color of the styled object, if it is BackgroundStyleable.
   public var backgroundColor: UIColor? {
-    get {
-      if let backgroundStyleable = styleable as? BackgroundStyleable {
-        return backgroundStyleable.backgroundColor
-      } else {
-        return nil
-      }
-    }
-    set {
-      if let backgroundStyleable = styleable as? BackgroundStyleable {
-        backgroundStyleable.backgroundColor = newValue
-      }
-    }
+    get { return backgroundStyleable?.style_backgroundColor }
+    set { backgroundStyleable?.style_backgroundColor = newValue }
   }
 
 }
 
-extension StyleableWrapper: ForegroundStyleable {
+// MARK: ForegroundStyleable
+extension StyleableWrapper {
 
+  private var foregroundStyleable: ForegroundStyleable? {
+    return styleable as? ForegroundStyleable
+  }
+
+  /// The foreground color of the styled object, if it is ForegroundStyleable.
   public var foregroundColor: UIColor? {
-    get {
-      if let foregroundStyleable = styleable as? ForegroundStyleable {
-        return foregroundStyleable.foregroundColor
-      } else {
-        return nil
-      }
-    }
-    set {
-      if let foregroundStyleable = styleable as? ForegroundStyleable {
-        foregroundStyleable.foregroundColor = newValue
-      }
-    }
+    get { return foregroundStyleable?.style_foregroundColor }
+    set { foregroundStyleable?.style_foregroundColor = newValue }
   }
 
 }
 
 
-extension StyleableWrapper: BorderStyleable {
+// MARK: BorderStyleable
+extension StyleableWrapper {
 
+  private var borderStyleable: BorderStyleable? {
+    return styleable as? BorderStyleable
+  }
+
+  /// The border color of the styled object, if it is BorderStyleable.
   public var borderColor: UIColor? {
-    get {
-      if let borderStyleable = styleable as? BorderStyleable {
-        return borderStyleable.borderColor
-      } else {
-        return nil
-      }
-    }
-    set {
-      if let borderStyleable = styleable as? BorderStyleable {
-        borderStyleable.borderColor = newValue
-      }
-    }
+    get { return borderStyleable?.style_borderColor }
+    set { borderStyleable?.style_borderColor = newValue }
   }
 
+  /// The border width of the styled object, if it is BorderStyleable.
   public var borderWidth: CGFloat {
-    get {
-      if let borderStyleable = styleable as? BorderStyleable {
-        return borderStyleable.borderWidth
-      } else {
-        return 0
-      }
-    }
-    set {
-      if let borderStyleable = styleable as? BorderStyleable {
-        borderStyleable.borderWidth = newValue
-      }
-    }
+    get { return borderStyleable?.style_borderWidth ?? 0 }
+    set { borderStyleable?.style_borderWidth = newValue }
   }
 
+}
+
+// MARK: CornerStyleable
+extension StyleableWrapper {
+
+  private var cornerStyleable: CornerStyleable? {
+    return styleable as? CornerStyleable
+  }
+
+  /// The corner radius of the styled object, if it is CornerStyleable.
   public var cornerRadius: CGFloat {
-    get {
-      if let borderStyleable = styleable as? BorderStyleable {
-        return borderStyleable.cornerRadius
-      } else {
-        return 0
-      }
-    }
-    set {
-      if let borderStyleable = styleable as? BorderStyleable {
-        borderStyleable.cornerRadius = newValue
-      }
-    }
+    get { return cornerStyleable?.style_cornerRadius ?? 0 }
+    set { cornerStyleable?.style_cornerRadius = newValue }
   }
   
 }
 
-extension StyleableWrapper: ShadowStyleable {
+// MARK: ShadowStyleable
+extension StyleableWrapper {
 
+  private var shadowStyleable: ShadowStyleable? {
+    return styleable as? ShadowStyleable
+  }
+
+  /// The shadow color of the styled object, if it is ShadowStyleable.
   public var shadowColor: UIColor? {
-    get {
-      if let shadowStyleable = styleable as? ShadowStyleable {
-        return shadowStyleable.shadowColor
-      } else {
-        return nil
-      }
-    }
-    set {
-      if let shadowStyleable = styleable as? ShadowStyleable {
-        shadowStyleable.shadowColor = newValue
-      }
-    }
+    get { return shadowStyleable?.style_shadowColor }
+    set { shadowStyleable?.style_shadowColor = newValue }
   }
 
+  /// The shadow color of the styled object, if it is ShadowStyleable.
   public var shadowRadius: CGFloat {
-    get {
-      if let shadowStyleable = styleable as? ShadowStyleable {
-        return shadowStyleable.shadowRadius
-      } else {
-        return 0
-      }
-    }
-    set {
-      if let shadowStyleable = styleable as? ShadowStyleable {
-        shadowStyleable.shadowRadius = newValue
-      }
-    }
+    get { return shadowStyleable?.style_shadowRadius ?? 0 }
+    set { shadowStyleable?.style_shadowRadius = newValue }
   }
 
+  /// The shadow offset of the styled object, if it is ShadowStyleable.
   public var shadowOffset: CGSize {
-    get {
-      if let shadowStyleable = styleable as? ShadowStyleable {
-        return shadowStyleable.shadowOffset
-      } else {
-        return CGSizeZero
-      }
-    }
-    set {
-      if let shadowStyleable = styleable as? ShadowStyleable {
-        shadowStyleable.shadowOffset = newValue
-      }
-    }
+    get { return shadowStyleable?.style_shadowOffset ?? CGSizeZero }
+    set { shadowStyleable?.style_shadowOffset = newValue }
   }
 
 }
 
-extension StyleableWrapper: EdgeStyleable {
+// MARK: InnerShadowStyleable
+extension StyleableWrapper {
 
-  public var padding: UIEdgeInsets {
-    get {
-      if let contentStyleable = styleable as? EdgeStyleable {
-        return contentStyleable.padding
-      } else {
-        return UIEdgeInsetsZero
-      }
-    }
-    set {
-      if let contentStyleable = styleable as? EdgeStyleable {
-        contentStyleable.padding = newValue
-      }
-    }
+  private var innerShadowStyleable: InnerShadowStyleable? {
+    return styleable as? InnerShadowStyleable
+  }
+
+  /// The inner shadow color of the styled object, if it is ShadowStyleable.
+  public var innerShadowColor: UIColor? {
+    get { return innerShadowStyleable?.style_innerShadowColor }
+    set { innerShadowStyleable?.style_innerShadowColor = newValue }
+  }
+
+  /// The inner shadow color of the styled object, if it is ShadowStyleable.
+  public var innerShadowRadius: CGFloat {
+    get { return innerShadowStyleable?.style_innerShadowRadius ?? 0 }
+    set { innerShadowStyleable?.style_innerShadowRadius = newValue }
+  }
+
+  /// The inner shadow offset of the styled object, if it is ShadowStyleable.
+  public var innerShadowOffset: CGSize {
+    get { return innerShadowStyleable?.style_innerShadowOffset ?? CGSizeZero }
+    set { innerShadowStyleable?.style_innerShadowOffset = newValue }
   }
 
 }
 
-extension StyleableWrapper: TextStyleable {
+// MARK: EdgeInsetsStyleable
+extension StyleableWrapper {
 
-  public var fontName: String? {
-    get {
-      if let textStyleable = styleable as? TextStyleable {
-        return textStyleable.fontName
-      } else {
-        return nil
-      }
-    }
-    set {
-      if let textStyleable = styleable as? TextStyleable {
-        textStyleable.fontName = newValue
-      }
-    }
+  private var edgeInsetsStyleable: EdgeInsetsStyleable? {
+    return styleable as? EdgeInsetsStyleable
   }
 
-  public var fontSize: CGFloat {
-    get {
-      if let textStyleable = styleable as? TextStyleable {
-        return textStyleable.fontSize
-      } else {
-        return 0
-      }
-    }
-    set {
-      if let textStyleable = styleable as? TextStyleable {
-        textStyleable.fontSize = newValue
-      }
-    }
+  /// The edge insets of the styled object, if it is EdgeInsetsStyleable.
+  public var edgeInsets: UIEdgeInsets {
+    get { return edgeInsetsStyleable?.style_edgeInsets ?? UIEdgeInsetsZero }
+    set { edgeInsetsStyleable?.style_edgeInsets = newValue }
+  }
+
+}
+
+// MARK: TextStyleable
+extension StyleableWrapper {
+
+  private var textStyleable: TextStyleable? {
+    return styleable as? TextStyleable
+  }
+
+  /// The font of the styled object, if it is TextStyleable.
+  public var font: UIFont? {
+    get { return textStyleable?.style_font }
+    set { textStyleable?.style_font = newValue }
   }
 
 }
