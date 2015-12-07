@@ -102,12 +102,6 @@ public class Themer {
     withViews(views, block)
   }
 
-  /// Selects views of a specific type.
-  public func withViewsOfType(type: UIView.Type, block: (StyleableWrapper) -> Void) {
-    let views = viewsOfType(type)
-    withViews(views, block)
-  }
-
   /// Selects views of a specific type, obtaining an actual instance as well.
   public func withViewsOfType<T: UIView>(type: T.Type, block: (T, StyleableWrapper) -> Void) {
     let views = viewsOfType(type)
@@ -115,6 +109,12 @@ public class Themer {
       let wrapper = StyleableWrapper(styleable: view)
       block(view as! T, wrapper)
     }
+  }
+
+  /// Selects views of a specific type.
+  public func withViewsOfType<T: UIView>(type: T.Type, block: (StyleableWrapper) -> Void) {
+    let views = viewsOfType(type)
+    withViews(views, block)
   }
 
 

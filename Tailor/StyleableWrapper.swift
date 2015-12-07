@@ -6,7 +6,7 @@ public class StyleableWrapper {
     self.styleable = styleable
   }
 
-  let styleable: AnyObject
+  public let styleable: AnyObject
 
 }
 
