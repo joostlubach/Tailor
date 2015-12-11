@@ -58,8 +58,8 @@ extension UIView: ShadowStyleable {
       }
     }
     set {
-      layer.shadowColor = newValue?.colorWithAlphaComponent(1.0).CGColor
-      layer.shadowOpacity = newValue != nil ? Float(CGColorGetAlpha(newValue!.CGColor)) : Float(0.0)
+      layer.shadowColor = newValue?.CGColor
+      layer.shadowOpacity = newValue != nil ? 1.0 : 0.0
     }
   }
 
