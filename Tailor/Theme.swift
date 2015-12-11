@@ -176,7 +176,7 @@ public class Themer {
   private func viewsWithAnyClassName(classNames: [String]) -> [UIView] {
     return allViews.filter {
       for name in classNames {
-        if $0.classNames.filter({ $0 == name }).count > 0 {
+        if $0.classNames.contains(name) {
           return true
         }
       }
@@ -188,7 +188,7 @@ public class Themer {
   private func viewsWithAllClassNames(classNames: [String]) -> [UIView] {
     return allViews.filter {
       for name in classNames {
-        if $0.classNames.filter({ $0 == name }).count == 0 {
+        if !$0.classNames.contains(name) {
           return false
         }
       }

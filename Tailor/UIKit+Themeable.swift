@@ -5,12 +5,13 @@ private var ClassNamesObjectKey: Void?
 
 public extension UIView {
 
-  var classNames: [String] {
+  var classNames: Set<String> {
     get {
-      return objc_getAssociatedObject(self, &ClassNamesObjectKey) as? [String] ?? []
+      let array = objc_getAssociatedObject(self, &ClassNamesObjectKey) as? [String] ?? []
+      return Set(array)
     }
     set {
-      objc_setAssociatedObject(self, &ClassNamesObjectKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+      objc_setAssociatedObject(self, &ClassNamesObjectKey, Array(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
   }
 
@@ -62,15 +63,15 @@ extension UITableViewCell {
     views.append(imageView!)
     views.append(textLabel!)
     if let label = detailTextLabel {
-      label.classNames.append("cell.detail")
+      label.classNames.insert("cell.detail")
       views.append(label)
     }
     if let view = backgroundView {
-      view.classNames.append("cell.background")
+      view.classNames.insert("cell.background")
       views.append(view)
     }
     if let view = selectedBackgroundView {
-      view.classNames.append("cell.selected-background")
+      view.classNames.insert("cell.selected-background")
       views.append(view)
     }
 
@@ -92,11 +93,11 @@ extension UICollectionViewCell {
     var views: [UIView] = [self]
 
     if let view = backgroundView {
-      view.classNames.append("cell.background")
+      view.classNames.insert("cell.background")
       views.append(view)
     }
     if let view = selectedBackgroundView {
-      view.classNames.append("cell.selected-background")
+      view.classNames.insert("cell.selected-background")
       views.append(view)
     }
 
