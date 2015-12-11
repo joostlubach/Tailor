@@ -43,6 +43,7 @@ extension UIView: CornerStyleable {
     }
     set {
       layer.cornerRadius = newValue
+      layer.masksToBounds = newValue != 0.0
     }
   }
 }
