@@ -168,3 +168,10 @@ extension UITextField: TextStyleable {
     set { font = newValue }
   }
 }
+
+extension UITextView: TextStyleable {
+  public var style_font: UIFont? {
+    get { return font }
+    set { font = newValue }
+  }
+}
