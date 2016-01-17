@@ -117,6 +117,18 @@ public class Control: UIControl {
   public func setup() {}
 }
 
+/// Easy to use base class for scroll views. Place initialization code in `setup`.
+public class ScrollView: UIScrollView {
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+    setup()
+  }
+  public required init(coder: NSCoder) {
+    fatalError("view coding is not supported in Builder classes")
+  }
+  public func setup() {}
+}
+
 /// Easy to use base class for table view cells. Place initialization code in `setup`.
 public class TableViewCell: UITableViewCell {
   public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
