@@ -1,13 +1,13 @@
 import Foundation
 
-public class Theme {
+open class Theme {
 
   typealias Handler = (Theme) -> Void
 
-  public convenience init(_ name: String, handler: (Theme) -> Void) {
+  public convenience init(_ name: String, handler: @escaping (Theme) -> Void) {
     self.init(name, baseTheme: nil, handler: handler)
   }
-  public init(_ name: String, baseTheme: Theme?, handler: (Theme) -> Void) {
+  public init(_ name: String, baseTheme: Theme?, handler: @escaping (Theme) -> Void) {
     self.name = name
     self.handler = handler
     self.baseTheme = baseTheme
@@ -21,7 +21,7 @@ public class Theme {
   var currentStylableViews: [UIView]!
   var selectedViews: [UIView]!
 
-  public func applyTo(themeable: Themeable) {
+  open func applyTo(_ themeable: Themeable) {
     currentThemeable = themeable
     currentStylableViews = themeable.stylableViews()
 
@@ -32,29 +32,29 @@ public class Theme {
     currentThemeable = nil
   }
 
-  private func withSelectedViews(views: [UIView], _ block: () -> Void) {
+  private func withSelectedViews(_ views: [UIView], _ block: () -> Void) {
     selectedViews = views
     block()
     selectedViews = nil
   }
 
-  public func selectRootView(block: () -> Void) {
+  open func selectRootView(_ block: () -> Void) {
     let views = currentStylableViews.filter { $0.isRootView }
     withSelectedViews(views, block)
   }
 
-  public func selectAllViews(block: () -> Void) {
+  open func selectAllViews(_ block: () -> Void) {
     assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
     withSelectedViews(currentStylableViews, block)
   }
 
-  public func selectViewsWithClassName(className: String, block: () -> Void) {
+  open func selectViewsWithClassName(_ className: String, block: () -> Void) {
     assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
     let views = currentStylableViews.filter { $0.classNames.filter({ $0 == className }).count > 0 }
     withSelectedViews(views, block)
   }
 
-  public func selectViewsWithAnyClassName(classNames: [String], block: () -> Void) {
+  open func selectViewsWithAnyClassName(_ classNames: [String], block: () -> Void) {
     assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
     let views = currentStylableViews.filter {
       for name in classNames {
@@ -67,7 +67,7 @@ public class Theme {
     withSelectedViews(views, block)
   }
 
-  public func selectViewsWithAllClassNames(classNames: [String], block: () -> Void) {
+  open func selectViewsWithAllClassNames(_ classNames: [String], block: () -> Void) {
     assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
     let views = currentStylableViews.filter {
       for name in classNames {
@@ -80,29 +80,29 @@ public class Theme {
     withSelectedViews(views, block)
   }
 
-  public func selectViewsOfType(type: UIView.Type, block: () -> Void) {
+  open func selectViewsOfType(_ type: UIView.Type, block: () -> Void) {
     assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
-    let views = currentStylableViews.filter { $0.isKindOfClass(type) }
+    let views = currentStylableViews.filter { $0.isKind(of: type) }
     withSelectedViews(views, block)
   }
 
-  public func onViewsOfType<T: UIView>(type: T.Type, block: (T) -> Void) {
+  open func onViewsOfType<T: UIView>(_ type: T.Type, block: (T) -> Void) {
     assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
-    let views = currentStylableViews.filter { $0.isKindOfClass(type) }
+    let views = currentStylableViews.filter { $0.isKind(of: type) }
 
     for view in views as! [T] {
       block(view)
     }
   }
 
-  public func applyCustomStylesToViewsOfType<T: UIView>(type: T.Type, block: (T) -> Void) {
-    let views = currentStylableViews.filter { $0.isKindOfClass(type) }
+  open func applyCustomStylesToViewsOfType<T: UIView>(_ type: T.Type, block: (T) -> Void) {
+    let views = currentStylableViews.filter { $0.isKind(of: type) }
     for view in views {
       block(view as! T)
     }
   }
 
-  public func setValue<T>(value: T, forProperty property: Property<T>) {
+  open func setValue<T>(_ value: T, forProperty property: Property<T>) {
     assert(selectedViews != nil, "no views selected")
 
     for view in selectedViews {
@@ -110,7 +110,7 @@ public class Theme {
     }
   }
 
-  public func addStyle<T>(style: Style<T>) {
+  open func addStyle<T>(_ style: Style<T>) {
     assert(selectedViews != nil, "no views selected")
 
     for view in selectedViews {

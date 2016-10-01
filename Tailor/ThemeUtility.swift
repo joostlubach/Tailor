@@ -2,12 +2,12 @@ import Foundation
 
 class ThemeUtility {
 
-  class func getAllViewsRecursively(root: UIView) -> [UIView] {
+  class func getAllViewsRecursively(_ root: UIView) -> [UIView] {
     var result: [UIView] = []
     var todo: [UIView]   = [root]
 
     while todo.count > 0 {
-      let current = todo.removeAtIndex(0)
+      let current = todo.remove(at: 0)
 
       // Skip themed subviews as they (should) have their own theme.
       if current !== root && current is ThemedView {

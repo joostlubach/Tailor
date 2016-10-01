@@ -1,6 +1,6 @@
 import Foundation
 
-public class Property<T>: NSObject {
+open class Property<T>: NSObject {
 
   typealias Application = (UIView, T) -> Void
 
@@ -12,23 +12,23 @@ public class Property<T>: NSObject {
 
   var applications: [Application] = []
 
-  public func setValue(value: T, forView view: UIView) {
+  open func setValue(_ value: T, forView view: UIView) {
     for application in applications {
       application(view, value)
     }
   }
 
-  public func application<ViewType: UIView>(type: ViewType.Type, block: (ViewType, T) -> Void) {
+  open func application<ViewType: UIView>(_ type: ViewType.Type, block: @escaping (ViewType, T) -> Void) {
     applications.append { view, value in
       // TODO: Swift is unable to do a static type cast based on a generic type (view as? ViewType),
       // so we use a runtime type-check on the type of view. Perhaps later this will be fixed.
-      if view.isKindOfClass(ViewType.self) {
+      if view.isKind(of: ViewType.self) {
         block(view as! ViewType, value)
       }
     }
   }
 
-  public func application(block: (UIView, T) -> Void) {
+  open func application(_ block: @escaping (UIView, T) -> Void) {
     applications.append(block)
   }
 

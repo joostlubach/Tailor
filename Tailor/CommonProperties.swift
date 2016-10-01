@@ -10,7 +10,7 @@ public let foregroundColor: Property<UIColor> = {
 
   foregroundColor.application(UIView.self) { view, color in
     view.tintColor = color
-    view.tintAdjustmentMode = .Normal
+    view.tintAdjustmentMode = .normal
   }
   foregroundColor.application(UILabel.self) { label, color in
     label.textColor = color
@@ -22,9 +22,9 @@ public let foregroundColor: Property<UIColor> = {
     view.textColor = color
   }
   foregroundColor.application(UIButton.self) { button, color in
-    button.setTitleColor(color, forState: .Normal)
-    button.setTitleColor(color.colorWithAlphaComponent(0.6), forState: .Highlighted)
-    button.setTitleColor(color.colorWithAlphaComponent(0.6), forState: [.Highlighted, .Selected])
+    button.setTitleColor(color, for: UIControlState())
+    button.setTitleColor(color.withAlphaComponent(0.6), for: .highlighted)
+    button.setTitleColor(color.withAlphaComponent(0.6), for: [.highlighted, .selected])
     return ()
   }
 
@@ -63,8 +63,8 @@ public let backgroundColor: Property<UIColor> = {
   backgroundColor.application { view, color in
     view.backgroundColor = color
 
-    if view.opaque && CGColorGetAlpha(color.CGColor) < 1.0 {
-      view.opaque = false
+    if view.isOpaque && color.cgColor.alpha < 1.0 {
+      view.isOpaque = false
     }
   }
   backgroundColor.application(UISearchBar.self) { bar, color in
@@ -106,7 +106,7 @@ public let borderColor: Property<UIColor> = {
   let borderColor = Property<UIColor>("border-color")
 
   borderColor.application(UIView.self) { view, color in
-    view.layer.borderColor = color.CGColor
+    view.layer.borderColor = color.cgColor
   }
 
   return borderColor
@@ -142,8 +142,8 @@ public let shadowColor: Property<UIColor> = {
   let shadowColor = Property<UIColor>("shadow-color")
 
   shadowColor.application(UIView.self) { view, color in
-    view.layer.shadowColor = CGColorCreateCopyWithAlpha(color.CGColor, 1.0)
-    view.layer.shadowOpacity = Float(CGColorGetAlpha(color.CGColor))
+    view.layer.shadowColor = color.cgColor.copy(alpha: 1.0)
+    view.layer.shadowOpacity = Float(color.cgColor.alpha)
   }
 
   return shadowColor

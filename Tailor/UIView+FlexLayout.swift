@@ -4,31 +4,31 @@ import UIKit
 public enum LayoutItem {
 
   /// A view with a fixed size.
-  case Fixed(UIView)
+  case fixed(UIView)
 
   /// A view with a flexible size.
-  case Flexible(UIView, Int)
+  case flexible(UIView, Int)
 
   /// A fixed space.
-  case FixedSpace(CGFloat)
+  case fixedSpace(CGFloat)
 
   /// A flexible space.
-  case FlexibleSpace(Int)
+  case flexibleSpace(Int)
 
 }
 
 /// Multiplies fixed spaces and flexible items by the given multiplier.
 public func *(layoutItem: LayoutItem, multiplier: Int) -> LayoutItem {
   switch (layoutItem) {
-  case .Fixed(_):
+  case .fixed(_):
     // Note: nothing happens here.
     return layoutItem
-  case let .Flexible(view, flex):
-    return LayoutItem.Flexible(view, flex * multiplier)
-  case let .FixedSpace(space):
-    return LayoutItem.FixedSpace(space * CGFloat(multiplier))
-  case let .FlexibleSpace(flex):
-    return LayoutItem.FlexibleSpace(flex * multiplier)
+  case let .flexible(view, flex):
+    return LayoutItem.flexible(view, flex * multiplier)
+  case let .fixedSpace(space):
+    return LayoutItem.fixedSpace(space * CGFloat(multiplier))
+  case let .flexibleSpace(flex):
+    return LayoutItem.flexibleSpace(flex * multiplier)
   }
 }
 
@@ -44,42 +44,42 @@ extension LayoutItem: LayoutItemConvertible {
 
 extension CGFloat: LayoutItemConvertible {
   public func toLayoutItem() -> LayoutItem {
-    return LayoutItem.FixedSpace(self)
+    return LayoutItem.fixedSpace(self)
   }
 }
 
 extension Double: LayoutItemConvertible {
   public func toLayoutItem() -> LayoutItem {
-    return LayoutItem.FixedSpace(CGFloat(self))
+    return LayoutItem.fixedSpace(CGFloat(self))
   }
 }
 
 extension Int: LayoutItemConvertible {
   public func toLayoutItem() -> LayoutItem {
-    return LayoutItem.FixedSpace(CGFloat(self))
+    return LayoutItem.fixedSpace(CGFloat(self))
   }
 }
 
 extension UIView: LayoutItemConvertible {
 
-  public func fixed(view: UIView) -> LayoutItem {
-    return LayoutItem.Fixed(view)
+  public func fixed(_ view: UIView) -> LayoutItem {
+    return LayoutItem.fixed(view)
   }
 
-  public func flexible(view: UIView, flex: Int = 1) -> LayoutItem {
-    return LayoutItem.Flexible(view, flex)
+  public func flexible(_ view: UIView, flex: Int = 1) -> LayoutItem {
+    return LayoutItem.flexible(view, flex)
   }
 
   public func space() -> LayoutItem {
-    return LayoutItem.FlexibleSpace(1)
+    return LayoutItem.flexibleSpace(1)
   }
 
-  public func space(length: CGFloat) -> LayoutItem {
-    return LayoutItem.FixedSpace(length)
+  public func space(_ length: CGFloat) -> LayoutItem {
+    return LayoutItem.fixedSpace(length)
   }
 
   public func toLayoutItem() -> LayoutItem {
-    return LayoutItem.Fixed(self)
+    return LayoutItem.fixed(self)
   }
 
 }
@@ -88,16 +88,16 @@ public extension RootView {
 
   public func top() -> LayoutItem {
     if viewController != nil {
-      return LayoutItem.FixedSpace(viewController.topLayoutGuide.length)
+      return LayoutItem.fixedSpace(viewController.topLayoutGuide.length)
     } else {
-      return LayoutItem.FixedSpace(0)
+      return LayoutItem.fixedSpace(0)
     }
   }
   public func bottom() -> LayoutItem {
     if viewController != nil {
-      return LayoutItem.FixedSpace(viewController.bottomLayoutGuide.length)
+      return LayoutItem.fixedSpace(viewController.bottomLayoutGuide.length)
     } else {
-      return LayoutItem.FixedSpace(0)
+      return LayoutItem.fixedSpace(0)
     }
   }
 
@@ -114,7 +114,7 @@ public extension UIView {
   ///   This example lays out a log in form in the center of their superview.
   ///
   ///     column([space(), usernameField, 10, passwordField, space()], align: .Center)
-  func column(items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapSuperview: Bool = false) {
+  func column(_ items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapSuperview: Bool = false) {
     flex(true, items: items, align: align, wrapSuperview: wrapSuperview)
   }
 
@@ -127,11 +127,11 @@ public extension UIView {
   ///   This example lays out a text field and a submit button at the top of the screen.
   ///
   ///     column([10, flexible(textField), 10, button, 10], align: .Near)
-  func row(items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapSuperview: Bool = false) {
+  func row(_ items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapSuperview: Bool = false) {
     flex(false, items: items, align: align, wrapSuperview: wrapSuperview)
   }
 
-  private func flex(vertical: Bool, items: [LayoutItemConvertible?], align: AxisAlignment?, wrapSuperview: Bool) {
+  private func flex(_ vertical: Bool, items: [LayoutItemConvertible?], align: AxisAlignment?, wrapSuperview: Bool) {
     var views: [UIView]      = []
     var fixedSpace: CGFloat  = 0.0
     var flexes: Int          = 0
@@ -141,18 +141,18 @@ public extension UIView {
       if item == nil {
         continue
       }
-      itemCount++
+      itemCount += 1
 
       switch item!.toLayoutItem() {
-      case let .Fixed(view):
+      case let .fixed(view):
         views.append(view)
         fixedSpace += (vertical ? view.frame.height : view.frame.width)
-      case let .Flexible(view, flex):
+      case let .flexible(view, flex):
         views.append(view)
         flexes += flex
-      case let .FixedSpace(length):
+      case let .fixedSpace(length):
         fixedSpace += length
-      case let .FlexibleSpace(flex):
+      case let .flexibleSpace(flex):
         flexes += flex
       }
     }
@@ -179,7 +179,7 @@ public extension UIView {
       }
 
       switch item!.toLayoutItem() {
-      case let .Fixed(view):
+      case let .fixed(view):
         if vertical {
           view.position.y = current
         } else {
@@ -187,7 +187,7 @@ public extension UIView {
         }
         current += vertical ? view.frame.height : view.frame.width
 
-      case let .Flexible(view, flex):
+      case let .flexible(view, flex):
         if vertical {
           view.height = flexSpace * CGFloat(flex)
           view.position.y = current
@@ -197,16 +197,16 @@ public extension UIView {
         }
         current += flexSpace * CGFloat(flex)
 
-      case let .FixedSpace(length):
+      case let .fixedSpace(length):
         current += length
 
-      case let .FlexibleSpace(flex):
+      case let .flexibleSpace(flex):
         current += flexSpace * CGFloat(flex)
       }
     }
 
     // Perform alignment.
-    let crossAxis = vertical ? LayoutAxis.X : LayoutAxis.Y
+    let crossAxis = vertical ? LayoutAxis.x : LayoutAxis.y
 
     if let alignment = align {
       for view in views {

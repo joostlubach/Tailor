@@ -192,6 +192,7 @@
 				TargetAttributes = {
 					C81A9CBC1A0799AC00EE15A7 = {
 						CreatedOnToolsVersion = 6.1;
+						LastSwiftMigration = 0800;
 					};
 					C81A9CC71A0799AC00EE15A7 = {
 						CreatedOnToolsVersion = 6.1;
@@ -369,6 +370,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yoazt.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -386,6 +388,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yoazt.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

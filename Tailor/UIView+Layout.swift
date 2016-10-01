@@ -1,7 +1,7 @@
 import UIKit
 
-private func maxOf<T: SequenceType where T.Generator.Element: Comparable>(values: T) -> T.Generator.Element? {
-  var currentMax: T.Generator.Element?
+private func maxOf<T: Sequence>(_ values: T) -> T.Iterator.Element? where T.Iterator.Element: Comparable {
+  var currentMax: T.Iterator.Element?
 
   for value in values {
     if currentMax == nil || value > currentMax! {
@@ -12,8 +12,8 @@ private func maxOf<T: SequenceType where T.Generator.Element: Comparable>(values
   return currentMax
 }
 
-private func minOf<T: SequenceType where T.Generator.Element: Comparable>(values: T) -> T.Generator.Element? {
-  var currentMin: T.Generator.Element?
+private func minOf<T: Sequence>(_ values: T) -> T.Iterator.Element? where T.Iterator.Element: Comparable {
+  var currentMin: T.Iterator.Element?
 
   for value in values {
     if currentMin == nil || value < currentMin! {
@@ -25,52 +25,52 @@ private func minOf<T: SequenceType where T.Generator.Element: Comparable>(values
 }
 
 public enum LayoutAxis {
-  case X, Y, Both
+  case x, y, both
 
   var horizontal: Bool {
-    return self == X || self == Both
+    return self == LayoutAxis.x || self == LayoutAxis.both
   }
   var vertical: Bool {
-    return self == Y || self == Both
+    return self == LayoutAxis.y || self == LayoutAxis.both
   }
 }
 
 public enum AxisAlignment {
-  case Near, Center, Far, Stretch
+  case near, center, far, stretch
 }
 
 public enum LayoutAlignment {
-  case TopLeft
-  case Top
-  case TopRight
-  case Left
-  case Fill
-  case Right
-  case BottomLeft
-  case Bottom
-  case BottomRight
+  case topLeft
+  case top
+  case topRight
+  case left
+  case fill
+  case right
+  case bottomLeft
+  case bottom
+  case bottomRight
 
-  case TopCenter
-  case LeftCenter
-  case Center
-  case RightCenter
-  case BottomCenter
+  case topCenter
+  case leftCenter
+  case center
+  case rightCenter
+  case bottomCenter
 
   var horizontalAlignment: AxisAlignment {
     switch self {
-    case TopLeft, Left, LeftCenter, BottomLeft: return .Near
-    case Top, Fill, Bottom: return .Stretch
-    case TopCenter, Center, BottomCenter: return .Center
-    case TopRight, Right, RightCenter, BottomRight: return .Far
+    case .topLeft, .left, .leftCenter, .bottomLeft: return .near
+    case .top, .fill, .bottom: return .stretch
+    case .topCenter, .center, .bottomCenter: return .center
+    case .topRight, .right, .rightCenter, .bottomRight: return .far
     }
   }
 
   var verticalAlignment: AxisAlignment {
     switch self {
-    case TopLeft, Top, TopCenter, TopRight: return .Near
-    case Left, Fill, Right: return .Stretch
-    case LeftCenter, Center, RightCenter: return .Center
-    case BottomLeft, Bottom, BottomCenter, BottomRight: return .Far
+    case .topLeft, .top, .topCenter, .topRight: return .near
+    case .left, .fill, .right: return .stretch
+    case .leftCenter, .center, .rightCenter: return .center
+    case .bottomLeft, .bottom, .bottomCenter, .bottomRight: return .far
     }
   }
 }
@@ -108,23 +108,23 @@ public extension UIView {
 public extension UIView {
 
   /// Aligns this view with another view.
-  func alignWith(otherView: UIView, alignment: LayoutAlignment, padding: CGFloat = 0.0) {
-    alignWith(otherView, alignment: alignment.horizontalAlignment, onAxis: .X, padding: padding)
-    alignWith(otherView, alignment: alignment.verticalAlignment, onAxis: .Y, padding: padding)
+  func alignWith(_ otherView: UIView, alignment: LayoutAlignment, padding: CGFloat = 0.0) {
+    alignWith(otherView, alignment: alignment.horizontalAlignment, onAxis: .x, padding: padding)
+    alignWith(otherView, alignment: alignment.verticalAlignment, onAxis: .y, padding: padding)
   }
 
   /// Aligns this view with another view on an axis.
-  func alignWith(otherView: UIView, alignment: AxisAlignment, onAxis axis: LayoutAxis, padding: CGFloat = 0.0) {
+  func alignWith(_ otherView: UIView, alignment: AxisAlignment, onAxis axis: LayoutAxis, padding: CGFloat = 0.0) {
 
     if axis.horizontal {
       switch alignment {
-      case .Near:
+      case .near:
         position.x = otherView.frame.minX + padding
-      case .Center:
+      case .center:
         center.x = otherView.frame.midX
-      case .Far:
+      case .far:
         position.x = otherView.frame.maxX - padding - width
-      case .Stretch:
+      case .stretch:
         width = otherView.width - 2 * padding
         position.x = otherView.frame.minX + padding
       }
@@ -132,13 +132,13 @@ public extension UIView {
 
     if axis.vertical {
       switch alignment {
-      case .Near:
+      case .near:
         position.y = otherView.frame.minY + padding
-      case .Center:
+      case .center:
         center.y = otherView.frame.midY
-      case .Far:
+      case .far:
         position.y = otherView.frame.maxY - padding - height
-      case .Stretch:
+      case .stretch:
         height = otherView.height - 2 * padding
         position.y = otherView.frame.minY + padding
       }
@@ -150,7 +150,7 @@ public extension UIView {
   ///
   /// - parameter axis:     The axis to use for wrapping. By default, this is both axes.
   /// - parameter padding:  An optional padding between the edges of the view and its subviews.
-  func wrapAroundSubviews(axis axis: LayoutAxis = .Both, padding: CGFloat = 0) {
+  func wrapAroundSubviews(axis: LayoutAxis = .both, padding: CGFloat = 0) {
     let subviews = self.subviews 
 
     if axis.horizontal {
@@ -181,23 +181,23 @@ public extension UIView {
 
   /// Centers this view in its superview.
   func centerInSuperview() {
-    alignInSuperview(.Center)
+    alignInSuperview(.center)
   }
 
   /// Aligns this view in its superview on the given axis, according to the given alignment.
-  func alignInSuperview(alignment: AxisAlignment, onAxis axis: LayoutAxis, padding: CGFloat = 0.0) {
+  func alignInSuperview(_ alignment: AxisAlignment, onAxis axis: LayoutAxis, padding: CGFloat = 0.0) {
     precondition(self.superview != nil)
     let superview = self.superview!
 
     if axis.horizontal {
       switch alignment {
-      case .Near:
+      case .near:
         position.x = padding
-      case .Center:
+      case .center:
         center.x = superview.width / 2
-      case .Far:
+      case .far:
         position.x = superview.width - width - padding
-      case .Stretch:
+      case .stretch:
         width = superview.width - 2 * padding
         position.x = padding
       }
@@ -205,13 +205,13 @@ public extension UIView {
 
     if axis.vertical {
       switch alignment {
-      case .Near:
+      case .near:
         position.y = padding
-      case .Center:
+      case .center:
         center.y = superview.height / 2
-      case .Far:
+      case .far:
         position.y = superview.height - height - padding
-      case .Stretch:
+      case .stretch:
         height = superview.height - 2 * padding
         position.y = padding
       }
@@ -219,9 +219,9 @@ public extension UIView {
   }
 
   /// Aligns this view in its superview according to the given alignment.
-  func alignInSuperview(alignment: LayoutAlignment, padding: CGFloat = 0.0) {
-    alignInSuperview(alignment.horizontalAlignment, onAxis: .X, padding: padding)
-    alignInSuperview(alignment.verticalAlignment, onAxis: .Y, padding: padding)
+  func alignInSuperview(_ alignment: LayoutAlignment, padding: CGFloat = 0.0) {
+    alignInSuperview(alignment.horizontalAlignment, onAxis: .x, padding: padding)
+    alignInSuperview(alignment.verticalAlignment, onAxis: .y, padding: padding)
   }
 
 }

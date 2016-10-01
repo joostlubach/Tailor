@@ -1,8 +1,8 @@
 import Foundation
 
-public class ContainerView: UIView {
+open class ContainerView: UIView {
   public init() {
-    super.init(frame: CGRectZero)
+    super.init(frame: CGRect.zero)
     setup()
   }
   public override init(frame: CGRect) {
@@ -15,15 +15,15 @@ public class ContainerView: UIView {
   }
 
   /// Override this method for initialization.
-  public func setup() {
+  open func setup() {
 
   }
 }
 
-public class ThemedView: UIView {
+open class ThemedView: UIView {
 
   public init() {
-    super.init(frame: CGRectZero)
+    super.init(frame: CGRect.zero)
     setup()
     applyTheme()
   }
@@ -40,7 +40,7 @@ public class ThemedView: UIView {
 
   private var _applyTheme = false
 
-  public var theme: Theme? {
+  open var theme: Theme? {
     didSet {
       if _applyTheme {
         theme?.applyTo(self)
@@ -49,7 +49,7 @@ public class ThemedView: UIView {
   }
 
   /// Override this method for initialization.
-  public func setup() {
+  open func setup() {
   }
 
   private func applyTheme() {
@@ -59,10 +59,10 @@ public class ThemedView: UIView {
 
 }
 
-public class RootView: ThemedView {
+open class RootView: ThemedView {
 
   public init(viewController: UIViewController) {
-    let window = UIApplication.sharedApplication().delegate!.window!!
+    let window = UIApplication.shared.delegate!.window!!
     self.viewController = viewController
     super.init(frame: window.frame)
   }
@@ -71,15 +71,15 @@ public class RootView: ThemedView {
     super.init(frame: frame)
   }
   required public init?(coder: NSCoder) {
-    self.viewController = coder.valueForKey("viewController") as! UIViewController
+    self.viewController = coder.value(forKey: "viewController") as! UIViewController
     super.init(coder: coder)
   }
-  public override func encodeWithCoder(coder: NSCoder) {
-    super.encodeWithCoder(coder)
+  open override func encode(with coder: NSCoder) {
+    super.encode(with: coder)
     coder.setValue(viewController, forKey: "viewController")
   }
 
-  public weak var viewController: UIViewController! {
+  open weak var viewController: UIViewController! {
     willSet {
       assert(viewController == nil, "you may not replace the view controller")
     }

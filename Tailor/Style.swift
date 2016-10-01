@@ -1,16 +1,16 @@
 import Foundation
 
-public class Style<T> {
+open class Style<T> {
 
   public init(property: Property<T>, value: T) {
     self.property = property
     self.value = value
   }
 
-  public let property: Property<T>
-  public let value: T
+  open let property: Property<T>
+  open let value: T
 
-  public func applyTo(view: UIView) {
+  open func applyTo(_ view: UIView) {
     property.setValue(value, forView: view)
   }
   
