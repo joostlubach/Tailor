@@ -1,8 +1,12 @@
 import Foundation
 
+<<<<<<< Updated upstream
 public protocol StyleType {
   func applyTo(styleable: AnyObject)
 }
+=======
+open class Style<T> {
+>>>>>>> Stashed changes
 
 /// Defines a certain style for any `Styleable` object. A `Style` is in essence nothing more than a block
 /// that receives an instance of `StyleableWrapper`. For each styleable object that is styled with the style,
@@ -29,6 +33,7 @@ public class Style: StyleType {
     self.handler = handler
   }
 
+<<<<<<< Updated upstream
   /// The style handler.
   let handler: (StyleableWrapper) -> Void
 
@@ -72,3 +77,13 @@ public class StyleFor<T: AnyObject>: StyleType {
   }
 
 }
+=======
+  open let property: Property<T>
+  open let value: T
+
+  open func applyTo(_ view: UIView) {
+    property.setValue(value, forView: view)
+  }
+  
+}
+>>>>>>> Stashed changes
