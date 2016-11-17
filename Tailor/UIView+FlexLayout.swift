@@ -87,12 +87,6 @@ extension UIView: LayoutItemConvertible {
 public extension RootView {
 
   public func top() -> LayoutItem {
-<<<<<<< Updated upstream
-    return LayoutItem.FixedSpace(viewController.topLayoutGuide.length)
-  }
-  public func bottom() -> LayoutItem {
-    return LayoutItem.FixedSpace(viewController.bottomLayoutGuide.length)
-=======
     if viewController != nil {
       return LayoutItem.fixedSpace(viewController.topLayoutGuide.length)
     } else {
@@ -105,7 +99,6 @@ public extension RootView {
     } else {
       return LayoutItem.fixedSpace(0)
     }
->>>>>>> Stashed changes
   }
 
 }
@@ -121,16 +114,8 @@ public extension UIView {
   ///   This example lays out a log in form in the center of their superview.
   ///
   ///     column([space(), usernameField, 10, passwordField, space()], align: .Center)
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  func column(items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapCross: Bool = false, wrapAlong: Bool = false, crossPadding: CGFloat = 0) {
-    flex(true, items: items, align: align, wrapCross: wrapCross, wrapAlong: wrapAlong, crossPadding: crossPadding)
-=======
-=======
->>>>>>> Stashed changes
   func column(_ items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapSuperview: Bool = false) {
     flex(true, items: items, align: align, wrapSuperview: wrapSuperview)
->>>>>>> Stashed changes
   }
 
   /// Lays out the given items in a row. Each specified view should have the same superview.
@@ -142,25 +127,11 @@ public extension UIView {
   ///   This example lays out a text field and a submit button at the top of the screen.
   ///
   ///     column([10, flexible(textField), 10, button, 10], align: .Near)
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  func row(items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapCross: Bool = false, wrapAlong: Bool = false, crossPadding: CGFloat = 0) {
-    flex(false, items: items, align: align, wrapCross: wrapCross, wrapAlong: wrapAlong, crossPadding: crossPadding)
-  }
-
-  private func flex(vertical: Bool, items: [LayoutItemConvertible?], align: AxisAlignment?, wrapCross: Bool = false, wrapAlong: Bool = false, crossPadding: CGFloat = 0) {
-=======
-=======
->>>>>>> Stashed changes
   func row(_ items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapSuperview: Bool = false) {
     flex(false, items: items, align: align, wrapSuperview: wrapSuperview)
   }
 
-  fileprivate func flex(_ vertical: Bool, items: [LayoutItemConvertible?], align: AxisAlignment?, wrapSuperview: Bool) {
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+  private func flex(_ vertical: Bool, items: [LayoutItemConvertible?], align: AxisAlignment?, wrapSuperview: Bool) {
     var views: [UIView]      = []
     var fixedSpace: CGFloat  = 0.0
     var flexes: Int          = 0
@@ -234,42 +205,21 @@ public extension UIView {
       }
     }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    let crossAxis = vertical ? LayoutAxis.X : LayoutAxis.Y
-=======
     // Perform alignment.
     let crossAxis = vertical ? LayoutAxis.x : LayoutAxis.y
->>>>>>> Stashed changes
-=======
-    // Perform alignment.
-    let crossAxis = vertical ? LayoutAxis.x : LayoutAxis.y
->>>>>>> Stashed changes
 
-    // Perform cross wrapping.
-    if wrapCross {
-      if vertical {
-        let maxWidth = views.map({$0.width}).maxElement() ?? 0
-        superview.width = maxWidth + 2 * crossPadding
-      } else {
-        let maxHeight = views.map({$0.height}).maxElement() ?? 0
-        superview.height = maxHeight + 2 * crossPadding
+    if let alignment = align {
+      for view in views {
+        view.alignInSuperview(alignment, onAxis: crossAxis)
       }
     }
 
-    // Perform along wrapping.
-    if wrapAlong {
+    // Perform wrapping.
+    if wrapSuperview {
       if vertical {
         superview.height = current
       } else {
         superview.width = current
-      }
-    }
-
-    // Perform alignment.
-    if let alignment = align {
-      for view in views {
-        view.alignInSuperview(alignment, onAxis: crossAxis, padding: crossPadding)
       }
     }
   }
