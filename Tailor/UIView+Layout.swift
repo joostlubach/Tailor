@@ -118,6 +118,7 @@ public extension UIView {
 
   /// Aligns this view with another view.
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   func alignWith(otherView: UIView, alignment: LayoutAlignment, padding: CGFloat = 0) {
     alignWith(otherView, alignment: alignment.horizontalAlignment, onAxis: .X, padding: padding)
     alignWith(otherView, alignment: alignment.verticalAlignment, onAxis: .Y, padding: padding)
@@ -125,6 +126,15 @@ public extension UIView {
 
   /// Aligns this view with another view on an axis.
   func alignWith(otherView: UIView, alignment: AxisAlignment, onAxis axis: LayoutAxis, padding: CGFloat = 0) {
+=======
+  func alignWith(_ otherView: UIView, alignment: LayoutAlignment, padding: CGFloat = 0.0) {
+    alignWith(otherView, alignment: alignment.horizontalAlignment, onAxis: .x, padding: padding)
+    alignWith(otherView, alignment: alignment.verticalAlignment, onAxis: .y, padding: padding)
+  }
+
+  /// Aligns this view with another view on an axis.
+  func alignWith(_ otherView: UIView, alignment: AxisAlignment, onAxis axis: LayoutAxis, padding: CGFloat = 0.0) {
+>>>>>>> Stashed changes
 =======
   func alignWith(_ otherView: UIView, alignment: LayoutAlignment, padding: CGFloat = 0.0) {
     alignWith(otherView, alignment: alignment.horizontalAlignment, onAxis: .x, padding: padding)
@@ -142,9 +152,15 @@ public extension UIView {
       case .center:
         center.x = otherView.frame.midX
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       case .Far:
         position.x = otherView.frame.maxX - width - padding
       case .Stretch:
+=======
+      case .far:
+        position.x = otherView.frame.maxX - padding - width
+      case .stretch:
+>>>>>>> Stashed changes
 =======
       case .far:
         position.x = otherView.frame.maxX - padding - width
@@ -162,9 +178,15 @@ public extension UIView {
       case .center:
         center.y = otherView.frame.midY
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       case .Far:
         position.y = otherView.frame.maxY - height - padding
       case .Stretch:
+=======
+      case .far:
+        position.y = otherView.frame.maxY - padding - height
+      case .stretch:
+>>>>>>> Stashed changes
 =======
       case .far:
         position.y = otherView.frame.maxY - padding - height
@@ -182,8 +204,11 @@ public extension UIView {
   /// - parameter axis:     The axis to use for wrapping. By default, this is both axes.
   /// - parameter padding:  An optional padding between the edges of the view and its subviews.
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   func wrapAroundSubviews(axis: LayoutAxis = .Both, padding: CGFloat = 0) {
 =======
+=======
+>>>>>>> Stashed changes
   func wrapAroundSubviews(axis: LayoutAxis = .both, padding: CGFloat = 0) {
     let subviews = self.subviews 
 

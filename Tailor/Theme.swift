@@ -1,15 +1,20 @@
 import Foundation
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /// A theme applies a bunch of styles to a view hierarchy based on rudimentary selectors. Using themes, you can accomplish
 /// a unified style with limited code.
 public class Theme {
 =======
 open class Theme {
 >>>>>>> Stashed changes
+=======
+open class Theme {
+>>>>>>> Stashed changes
 
   // MARK: - Initialization
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   /// Initializes the theme.
   public init(handler: (Themer) -> Void) {
@@ -20,6 +25,8 @@ open class Theme {
   /// Initializes the theme with a base theme. The base theme is applied first, before applying this theme.
   public init(baseTheme: Theme, handler: (Themer) -> Void) {
 =======
+=======
+>>>>>>> Stashed changes
   public convenience init(_ name: String, handler: @escaping (Theme) -> Void) {
     self.init(name, baseTheme: nil, handler: handler)
   }
@@ -33,6 +40,7 @@ open class Theme {
 
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   // MARK: Properties
 
   /// The theme handler.
@@ -41,6 +49,8 @@ open class Theme {
   /// An optional base theme for this theme.
   public let baseTheme: Theme?
 =======
+=======
+>>>>>>> Stashed changes
   open func applyTo(_ themeable: Themeable) {
     currentThemeable = themeable
     currentStylableViews = themeable.stylableViews()
@@ -59,6 +69,7 @@ open class Theme {
     handler(themer)
   }
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 }
 
@@ -128,6 +139,8 @@ public class Themer {
       let wrapper = StyleableWrapper(styleable: view)
       block(view as! T, wrapper)
 =======
+=======
+>>>>>>> Stashed changes
   fileprivate func withSelectedViews(_ views: [UIView], _ block: () -> Void) {
     selectedViews = views
     block()
@@ -177,6 +190,7 @@ public class Themer {
   }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   /// Selects views of a specific type.
   public func withViewsOfType<T: UIView>(type: T.Type, block: (StyleableWrapper) -> Void) {
     let views = viewsOfType(type)
@@ -184,6 +198,8 @@ public class Themer {
   }
 
 =======
+=======
+>>>>>>> Stashed changes
   open func selectViewsOfType(_ type: UIView.Type, block: () -> Void) {
     assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
     let views = currentStylableViews.filter { $0.isKind(of: type) }
@@ -193,9 +209,12 @@ public class Themer {
   open func onViewsOfType<T: UIView>(_ type: T.Type, block: (T) -> Void) {
     assert(currentThemeable != nil, "you cannot select views outside of a theme declaration")
     let views = currentStylableViews.filter { $0.isKind(of: type) }
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
   // MARK: - Style application
+=======
+>>>>>>> Stashed changes
 
   /// Applies the given style to the root view.
   public func applyStyleToBackgroundView(style: Style) {
@@ -204,6 +223,7 @@ public class Themer {
     }
   }
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   /// Applies the given style to all views.
   public func applyStyleToRootView(style: Style) {
@@ -219,6 +239,8 @@ public class Themer {
     }
   }
 =======
+=======
+>>>>>>> Stashed changes
   open func applyCustomStylesToViewsOfType<T: UIView>(_ type: T.Type, block: (T) -> Void) {
     let views = currentStylableViews.filter { $0.isKind(of: type) }
     for view in views {
@@ -238,6 +260,7 @@ public class Themer {
   }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   /// Applies the given style to all views with all of the given class names.
   public func applyStyle(style: StyleType, toViewsWithAllClassNames classNames: [String]) {
     for view in viewsWithAllClassNames(classNames) {
@@ -245,6 +268,8 @@ public class Themer {
     }
   }
 =======
+=======
+>>>>>>> Stashed changes
   open func addStyle<T>(_ style: Style<T>) {
     assert(selectedViews != nil, "no views selected")
 >>>>>>> Stashed changes
@@ -266,6 +291,7 @@ public class Themer {
 
   // MARK: - Selection helpers
 
+<<<<<<< Updated upstream
   /// Obtains all views that have any of the given class names.
   private func viewsWithAnyClassName(classNames: [String]) -> [UIView] {
     return allViews.filter {
@@ -295,6 +321,9 @@ public class Themer {
   private func viewsOfType(type: UIView.Type) -> [UIView] {
     return allViews.filter { $0.isKindOfClass(type) }  }
   }
+=======
+}
+>>>>>>> Stashed changes
 =======
 }
 >>>>>>> Stashed changes

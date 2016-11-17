@@ -122,9 +122,12 @@ public extension UIView {
   ///
   ///     column([space(), usernameField, 10, passwordField, space()], align: .Center)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   func column(items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapCross: Bool = false, wrapAlong: Bool = false, crossPadding: CGFloat = 0) {
     flex(true, items: items, align: align, wrapCross: wrapCross, wrapAlong: wrapAlong, crossPadding: crossPadding)
 =======
+=======
+>>>>>>> Stashed changes
   func column(_ items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapSuperview: Bool = false) {
     flex(true, items: items, align: align, wrapSuperview: wrapSuperview)
 >>>>>>> Stashed changes
@@ -140,17 +143,23 @@ public extension UIView {
   ///
   ///     column([10, flexible(textField), 10, button, 10], align: .Near)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   func row(items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapCross: Bool = false, wrapAlong: Bool = false, crossPadding: CGFloat = 0) {
     flex(false, items: items, align: align, wrapCross: wrapCross, wrapAlong: wrapAlong, crossPadding: crossPadding)
   }
 
   private func flex(vertical: Bool, items: [LayoutItemConvertible?], align: AxisAlignment?, wrapCross: Bool = false, wrapAlong: Bool = false, crossPadding: CGFloat = 0) {
 =======
+=======
+>>>>>>> Stashed changes
   func row(_ items: [LayoutItemConvertible?], align: AxisAlignment? = nil, wrapSuperview: Bool = false) {
     flex(false, items: items, align: align, wrapSuperview: wrapSuperview)
   }
 
   fileprivate func flex(_ vertical: Bool, items: [LayoutItemConvertible?], align: AxisAlignment?, wrapSuperview: Bool) {
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     var views: [UIView]      = []
     var fixedSpace: CGFloat  = 0.0
@@ -226,7 +235,12 @@ public extension UIView {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     let crossAxis = vertical ? LayoutAxis.X : LayoutAxis.Y
+=======
+    // Perform alignment.
+    let crossAxis = vertical ? LayoutAxis.x : LayoutAxis.y
+>>>>>>> Stashed changes
 =======
     // Perform alignment.
     let crossAxis = vertical ? LayoutAxis.x : LayoutAxis.y

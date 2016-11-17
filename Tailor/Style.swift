@@ -1,9 +1,13 @@
 import Foundation
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 public protocol StyleType {
   func applyTo(styleable: AnyObject)
 }
+=======
+open class Style<T> {
+>>>>>>> Stashed changes
 =======
 open class Style<T> {
 >>>>>>> Stashed changes
@@ -76,8 +80,11 @@ public class StyleFor<T: AnyObject>: StyleType {
     }
   }
 
+<<<<<<< Updated upstream
 }
 =======
+=======
+>>>>>>> Stashed changes
   open let property: Property<T>
   open let value: T
 
@@ -86,4 +93,7 @@ public class StyleFor<T: AnyObject>: StyleType {
   }
   
 }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

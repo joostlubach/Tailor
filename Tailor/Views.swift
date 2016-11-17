@@ -1,9 +1,13 @@
 import UIKit
 
+<<<<<<< Updated upstream
 /// An easy to use view class. Place all initialization code in `setup`.
 public class View: UIView {
 
 <<<<<<< Updated upstream
+=======
+open class ContainerView: UIView {
+>>>>>>> Stashed changes
 =======
 open class ContainerView: UIView {
 >>>>>>> Stashed changes
@@ -25,8 +29,11 @@ open class ContainerView: UIView {
 
   /// Override this method for initialization.
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   public func setup() {
 =======
+=======
+>>>>>>> Stashed changes
   open func setup() {
 
 >>>>>>> Stashed changes
@@ -34,6 +41,7 @@ open class ContainerView: UIView {
   
 }
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 /// A container view can be used to make sure that themes pass through to their subviews.
 public class ContainerView: View, ThemeContainerView {}
@@ -44,6 +52,8 @@ public class ThemedView: View, UnthemedView {
   public override init() {
     super.init()
 =======
+=======
+>>>>>>> Stashed changes
 open class ThemedView: UIView {
 
   public init() {
@@ -61,8 +71,14 @@ open class ThemedView: UIView {
   }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   /// The theme of this view.
   public var theme: Theme? {
+=======
+  fileprivate var _applyTheme = false
+
+  open var theme: Theme? {
+>>>>>>> Stashed changes
 =======
   fileprivate var _applyTheme = false
 
@@ -119,6 +135,7 @@ open class ThemedView: UIView {
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /// Easy to use base class for buttons. Place initialization code in `setup`.
 public class Button: UIButton {
   public init() {
@@ -141,6 +158,8 @@ public class Control: UIControl {
     super.init(frame: CGRectZero)
     setup()
 =======
+=======
+>>>>>>> Stashed changes
 open class RootView: ThemedView {
 
   public init(viewController: UIViewController) {
@@ -182,12 +201,15 @@ public class ScrollView: UIScrollView {
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /// Easy to use base class for table view cells. Place initialization code in `setup`.
 public class TableViewCell: UITableViewCell {
   public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     setup()
 =======
+=======
+>>>>>>> Stashed changes
   open weak var viewController: UIViewController! {
     willSet {
       assert(viewController == nil, "you may not replace the view controller")
@@ -200,6 +222,7 @@ public class TableViewCell: UITableViewCell {
   public func setup() {}
 }
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 /// Easy to use base class for collection view cells. Place initialization code in `setup`.
 public class CollectionViewCell: UICollectionViewCell {
@@ -216,6 +239,9 @@ public class CollectionViewCell: UICollectionViewCell {
   }
   public func setup() {}
 }
+=======
+}
+>>>>>>> Stashed changes
 =======
 }
 >>>>>>> Stashed changes

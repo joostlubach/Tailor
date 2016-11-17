@@ -1,5 +1,6 @@
 import Foundation
 
+<<<<<<< Updated upstream
 public class ThemeUtility {
 
 <<<<<<< Updated upstream
@@ -9,6 +10,10 @@ public class ThemeUtility {
     var result: [UIView] = [root]
     var todo: [UIView]   = root.subviews
 =======
+=======
+class ThemeUtility {
+
+>>>>>>> Stashed changes
   class func getAllViewsRecursively(_ root: UIView) -> [UIView] {
     var result: [UIView] = []
     var todo: [UIView]   = [root]
