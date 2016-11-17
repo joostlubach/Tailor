@@ -222,14 +222,8 @@
 				TargetAttributes = {
 					C81A9CBC1A0799AC00EE15A7 = {
 						CreatedOnToolsVersion = 6.1;
-<<<<<<< Updated upstream
-=======
 						DevelopmentTeam = 9WAP3C3KC8;
 						LastSwiftMigration = 0800;
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 					};
 					C81A9CC71A0799AC00EE15A7 = {
 						CreatedOnToolsVersion = 6.1;
